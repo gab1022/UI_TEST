@@ -1,0 +1,22 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Investment Program ID"
+		class="sapUiPopupWithPadding"
+		items="{path: 'masterDataModel>/InvestmentProgramSet'}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{masterDataModel>InvProgram}"
+			info=""
+			description="{masterDataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="InvProgram"></core:CustomData>
+			<core:CustomData key="formProp" value="InvProgram"></core:CustomData>
+			<core:CustomData key="selctionProperty" value="investmentprogramid"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

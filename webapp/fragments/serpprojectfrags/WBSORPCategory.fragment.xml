@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="WBS ORP Category"
+		class="sapUiPopupWithPadding"
+		items="{path: 'serpProjectCreationODataModel>/ORPCategorySet', filters: [{
+			path: 'Active', operator : 'EQ', value1 : true
+		}]}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProjectCreationODataModel>OrpCategory}"
+			info=""
+			description="{serpProjectCreationODataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="OrpCategory"></core:CustomData>
+			<core:CustomData key="formProp" value="ORPCategory"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

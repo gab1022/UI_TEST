@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Dialog title="Budget List (Plan Value: ${localDataModel>/planbudgetvalue})">
+		<content>
+			<Table growing="true" growingScrollToLoad="true" width="50rem" mode="None" items="{ path : 'localDataModel>/addlProjDetails', 
+				filters:[{path:'code', operator: 'EQ', value1:'PLBD'}, {path:'deletionflag', operator: 'NE', value1:'X'}]}">
+				<columns>
+					<Column width="5em">
+						<header>
+							<Text text="Year"/>
+						</header>
+					</Column>
+					<Column width="10rem">
+						<header>
+							<Text text="Budget Value"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Label text="{localDataModel>value}"/>
+							<HBox alignContent="Center" alignItems="Center">
+							<Input value="{localDataModel>description}" editable="{localDataModel>editable}" 
+								enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM') 
+									&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; 
+									${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"/> <!-- @Task 290069, 319741, 341435 -->
+							<Text text="{localDataModel>/currency}"/>
+							</HBox>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<buttons>
+			<Button text="Save" type="Accept" press="onBudgetSave" visible= "{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' 
+				|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' 
+				&amp;&amp; ${localDataModel>/disableaction} !== 'Y'}"/> <!-- @Task 290069, 319741, 341435 -->
+			<Button text="Cancel" type="Reject" press="onBudgetCancel"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

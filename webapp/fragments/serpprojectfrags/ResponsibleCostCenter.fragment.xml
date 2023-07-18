@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Responsible Cost Center"
+		class="sapUiPopupWithPadding"
+		items="{path: 'serpProjectCreationODataModel>/costCenterSet', filters: [
+			{path: 'ControllingArea', operator : 'EQ', value1 : 'SV01'},
+			{path: 'Language', operator : 'EQ', value1 : 'E'}
+		]}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProjectCreationODataModel>CostCenter}"
+			info=""
+			description="{serpProjectCreationODataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="CostCenter"></core:CustomData>
+			<core:CustomData key="formProp" value="CostCenter"></core:CustomData>
+			<core:CustomData key="selctionProperty" value="respcostcntr"></core:CustomData> <!-- @Task 306868 -->
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

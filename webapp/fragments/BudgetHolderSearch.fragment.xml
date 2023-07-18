@@ -1,0 +1,50 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Dialog title="Budget Holder" busy="{busyModel>/busyState}" >
+		<buttons>
+			<Button text="Cancel" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="budgetholderfrag"/>
+				</customData>
+			</Button>
+		</buttons>
+		<Panel expandable="false">
+			<content>
+				<HBox class="sapUiSmallMargin">
+					<VBox class="sapUiSmallMarginEnd">
+						<Label text="Alias ID" class="sapUiSmallMarginEnd"></Label>
+						<Input class="sapUiSmallMarginEnd" value="{localDataModel>/serpSearchAliasId}"></Input>
+					</VBox>
+					<VBox class="sapUiSmallMarginEnd">
+						<Label text="Name" class="sapUiSmallMarginBegin"></Label>
+						<Input class="sapUiSmallMarginEnd" value="{localDataModel>/serpSearchName}"></Input>
+					</VBox>
+					<Button class="sapUiSmallMarginTop sapUiSizeCompact" text="Search" press="onBudgetHolderSearch"/>
+				</HBox>
+			</content>
+		</Panel>
+		<List noDataText="{i18n>noData}" items="{ path: 'budgetHolderSerpLocalModel>/BudgetHolderSet'}" itemPress="onListUserSelect" 
+			selectionChange="onListUserSelect" growingThreshold="100" growing="true" growingScrollToLoad="true" mode="SingleSelectMaster">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Select a Budget Holder" level="H6"></Title>
+				</OverflowToolbar>
+			</headerToolbar>
+			<items>
+				<ObjectListItem title="{budgetHolderSerpLocalModel>BhID}">
+				<attributes>
+					<ObjectAttribute title="Name" text="{budgetHolderSerpLocalModel>BhName}"></ObjectAttribute>
+					<ObjectAttribute title="Org" text="{budgetHolderSerpLocalModel>BhType}"></ObjectAttribute>
+					<ObjectAttribute title="Limit" text="{budgetHolderSerpLocalModel>Limit} {budgetHolderSerpLocalModel>Currency}"></ObjectAttribute>
+				</attributes>
+			</ObjectListItem>
+			</items>
+			<customData>
+				<core:CustomData key="selctionBindingContext" value="budgetHolderSerpLocalModel"/>
+				<core:CustomData key="fragControl" value="_oList"/>
+				<core:CustomData key="fragBindingInfo" value="items"/>
+				<core:CustomData key="fragVariable" value="budgetholderfrag"/>
+			</customData>
+		</List>
+	</Dialog>
+</core:FragmentDefinition>

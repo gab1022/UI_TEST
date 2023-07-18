@@ -1,0 +1,165 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<f:Form editable="true">
+		<f:layout>
+			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+				emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+		</f:layout>
+		<f:formContainers>
+			<f:FormContainer title="General Details">
+				<f:formElements>
+					<f:FormElement label="FDR Number">
+						<f:fields>
+							<Input enabled="false" value="{localDataModel>/fdrno}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Status">
+						<f:fields>
+							<Input enabled="false" value="{= ${localDataModel>/fdrstatusdesc} !== null &amp;&amp; ${localDataModel>/fdrstatusdesc} !== '' 
+								? ${localDataModel>/fdrstatusdesc} : ${localDataModel>/fdrstatus} }"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Route">
+						<f:fields>
+							<Select  enabled="false" forceSelection="false"
+								items="{ path: 'feederMainODataModel>/generic', filters:[{path:'varfld',operator: 'EQ', value1:'FDRR'},{path:'deletionflag',operator: 'NE', value1:'X'}]}"
+								selectedKey="{localDataModel>/fdrroute}">
+								<core:Item key="{feederMainODataModel>code}" text="{feederMainODataModel>desc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Description">
+						<f:fields>
+							<Input value="{localDataModel>/fdrdescription}" enabled="false"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement>
+						<f:label>
+							<Label text="Service Provider Name" wrapping="true"></Label>
+						</f:label>
+						<f:fields>
+							<Input value="{localDataModel>/providerCompanies/0/provideraoodesc}" enabled="false"/>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Allocation Details">
+				<f:formElements>
+					<!-- @ START: Task 404515 -->
+					<!-- <f:FormElement label="Business">
+						<f:fields>
+							<Select enabled="false" forceSelection="false"
+								items="{ path: 'feederMainODataModel>/generic', filters:[{path:'varfld',operator: 'EQ', value1:'BUSI'},{path:'deletionflag',operator: 'NE', value1:'X'}]}"
+								selectedKey="{localDataModel>/business}">
+								<core:Item key="{feederMainODataModel>code}" text="{feederMainODataModel>desc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement> -->
+					<!-- @END: Task 404515 -->
+					<f:FormElement>
+						<f:label>
+							<Label text="Distribution Channel" wrapping="true"></Label>
+						</f:label>
+						<f:fields>
+							<Input enabled="false" value="{localDataModel>/dc}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Attachment list">
+						<f:fields>
+							<Button id="idProvConfAttachment" icon="sap-icon://attachment" press="getListOfAttachment"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Plan Value">
+						<f:fields>
+							<Input id="idProvConfPlanValue" type="Number" value="{localDataModel>/planbudgetvalue}" enabled="false"/>
+							<!--@START: INC1934413 -->
+							<!--Select items="{serp110ODataModel>/CurrencySet}" selectedKey="{localDataModel>/currency}" enabled="false">
+								<items>
+									<core:Item key="{serp110ODataModel>Waers}" text="{serp110ODataModel>Description}({serp110ODataModel>Waers})"/>
+								</items>
+								<layoutData>
+									<l:GridData span="XL2 L1 M3 S4"/>
+								</layoutData>
+							</Select-->
+							<Input value="{localDataModel>/currency}" enabled="false" >
+								<layoutData>
+									<l:GridData span="XL2 L1 M3 S4"/>
+								</layoutData>
+							</Input>
+							<!--@END: INC1934413 -->
+							<Button icon="sap-icon://lead" tooltip="Assign Budget to Multiple Years" press="onBudgetPress" 
+								enabled="{= ${localDataModel>/planbudgetvalue} !== undefined &amp;&amp; ${localDataModel>/planbudgetvalue} !== ''}">
+								<layoutData>
+									<l:GridData span="XL1 L1 M2 S3"/>
+								</layoutData>
+							</Button>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Contract Details">
+				<f:formElements>
+					<f:FormElement label="Function">
+						<f:fields>
+							<Input value="{localDataModel>/functiondesc}" showValueHelp="true" valueHelpRequest="onFunSerActValueHelpSearch" enabled="false">
+								<customData>
+									<core:CustomData key="fragmentName" value="FunctionsSearchHelp"/>
+									<core:CustomData key="fragVariable" value="functionFrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Service">
+						<f:fields>
+							<Input id="idProvConfService" value="{localDataModel>/service}" showValueHelp="true" valueHelpRequest="onFunSerActValueHelpSearch" enabled="false">
+								<customData>
+									<core:CustomData key="fragmentName" value="ServiceSearchHelp"/>
+									<core:CustomData key="fragVariable" value="serviceFrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="FDR Validity">
+						<f:fields>
+							<DatePicker id="idProvConfFromDate" change="onDateChange" minDate="{contractDatesModel>/fromMin}"
+								dateValue="{path:'localDataModel>/fromdate',formatter:'.formatter.dateFormatter'}" enabled="false"/>
+							<DatePicker id="idProvConfToDate" change="onDateChange" minDate="{contractDatesModel>/toMin}"
+								maxDate="{contractDatesModel>/toMax}" dateValue="{path:'localDataModel>/todate',formatter:'.formatter.dateFormatter'}" enabled="false"/>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Other Details">
+				<f:formElements>
+					<f:FormElement label="Initiator">
+						<f:fields>
+							<Input id="idProvConfInitiator" value="{localDataModel>/initiator} - {localDataModel>/initiatorname}" enabled="false"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="GSR Focal">
+						<f:fields>
+							<Input value="{localDataModel>/gsrfocal} - {localDataModel>/gsrfocalname}" showValueHelp="true" valueHelpRequest="onHeaderValueHelpSearch" enabled="false">
+								<customData>
+									<core:CustomData key="path" value="gsrfocal"/>
+									<core:CustomData key="fragmentName" value="FocalPointDetermination"/>
+									<core:CustomData key="fragVariable" value="gsrfocalfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="R&amp;A Focal">
+						<f:fields>
+							<Input value="{localDataModel>/rnafocal} - {localDataModel>/rnafocalname}" showValueHelp="true" valueHelpRequest="onHeaderValueHelpSearch" enabled="false">
+								<customData>
+									<core:CustomData key="path" value="rnafocal"/>
+									<core:CustomData key="fragmentName" value="FocalPointDetermination"/>
+									<core:CustomData key="fragVariable" value="rnafocalfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+		</f:formContainers>
+	</f:Form>
+</core:FragmentDefinition>

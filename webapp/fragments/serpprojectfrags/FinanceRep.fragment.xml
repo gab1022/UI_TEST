@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Finance Rep"
+		class="sapUiPopupWithPadding"
+		items="{serpProjectCreationODataModel>/applicantNumberSet}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProjectCreationODataModel>Astnr}"
+			info=""
+			description="{serpProjectCreationODataModel>Astna}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="Astnr"></core:CustomData>
+			<core:CustomData key="formProp" value="FinanceRep"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

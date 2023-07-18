@@ -1,0 +1,467 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<Toolbar>
+		<ToolbarSpacer/>
+		<!-- @Task 290069 -->
+		<Button icon="sap-icon://collections-insight" press="onOpenWindow" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+			<customData>
+				<core:CustomData key="fragmentName" value="FDRActualsHistory"/>
+				<core:CustomData key="fragVariable" value="fdrActualsHistoryFrag"/>
+				<core:CustomData key="path" value="fdrActualsHistory"/>
+			</customData>
+		</Button>
+		<Button icon="sap-icon://collections-management" press="onCalculate" visible="{= ${localDataModel>/fdrroute} === 'EBD'}"
+			enabled="{= ${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'}"/> <!-- @Task 341435 -->
+		<Button icon="sap-icon://add" press="onRecepientAdd" visible="{= ${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'
+			 || ${tileIdentityModel>/role} === 'SUPADM'}" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+			 (!${localDataModel>/fdrstatus}.startsWith('CH') || ${tileIdentityModel>/role} === 'SUPADM')}"> <!-- @Task 319741, 341435 -->
+			<customData>
+				<!-- @START: Task 321442 -->
+				<core:CustomData key="fragmentName" value="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF' ? 'AllocationSetSelection' : 'BenCompCode'}"/>
+				<core:CustomData key="fragVariable" value="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF' ? 'alloSetFrag' : 'benCompCodeFrag'}"/>
+				<!-- @END: Task 321442 -->
+				<core:CustomData key="fragModelName" value="oBenCompCodeModel"/>
+				<core:CustomData key="fragoDataModelName" value="serp150ODataModel"/>
+				<core:CustomData key="fragOdataEntitySet" value="CompCodeSet"/>
+			</customData>
+		</Button>
+		<Button icon="sap-icon://delete" press="onLineItemDelete" visible="{= ${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'}" 
+			enabled="{= ${localDataModel>/workflowflag} !== 'X' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'
+				&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"> <!-- @Task 341435 -->
+			<customData>
+				<core:CustomData key="bindingValue" value="benifCompanies"/>
+			</customData>
+		</Button>
+	</Toolbar>
+	<t:Table visibleRowCount="{= ${localDataModel>/fdrroute} === 'DIR' ? ${localDataModel>/benifCompanies}.length : (${localDataModel>/benifCompanies}.length > 10 ? 10 : ${localDataModel>/benifCompanies}.length)}"
+		rows="{localDataModel>/benifCompanies}">
+		<t:columns>
+			<!-- @START: Task 252320 -->
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} === 'DIR'}">
+				<Label text="Customer Company Name" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>rcaoodesc}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 252320 -->
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/BENbeneficiarycompcode} === 'X'}" text="Beneficiary Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>beneficiarycompcode}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/BENerpcomcode} === 'X'}" text="ERP Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>erpcomcode}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="6rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/BENresys} === 'X'}" text="System"/>
+				<t:template>
+					<Input value="{localDataModel>resys}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/BENrcgrpcomp} === 'X'}" text="Group Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>rcgrpcomp}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="6rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/BENrcaoo} === 'X'}" text="AOO"/>
+				<t:template>
+					<Input value="{localDataModel>rcaoo}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 271625 -->
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+				<Label text="Invoice Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>invcompcode}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onOpenWindow"
+						enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>deletionflag} !== 'X' &amp;&amp; 
+						${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+						<customData>
+							<core:CustomData key="path" value="invcompcode"/>
+							<core:CustomData key="fragmentName" value="InvoiceCompCode"/>
+							<core:CustomData key="fragVariable" value="invoiceCompCodeFrag"/>
+							<core:CustomData key="fragModelName" value="oBenCompCodeModel"/>
+							<core:CustomData key="fragoDataModelName" value="serp150ODataModel"/>
+							<core:CustomData key="fragOdataEntitySet" value="CompCodeSet"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+				<Label text="Invoice Group Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>invgrpcomp}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+				<Label text="Invoice AOO" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>invccaoo}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 271625 -->
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCB' 
+				&amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENsoldto} === 'X'}" text="Sold To Customer"/>
+				<t:template>
+					<Input value="{localDataModel>soldto}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onSoldToValueHelpRequest"
+						enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM') 
+							&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; (!${localDataModel>/fdrstatus}.startsWith('CH') 
+							|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>deletionflag} !== 'X'}"/> <!-- @Task 319741, 341435 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCB' 
+				&amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENshipto} === 'X'}" text="Ship To"/>
+				<t:template>
+					<Input value="{localDataModel>shipto}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCB' 
+				&amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENbillto} === 'X'}" text="Bill To"/>
+				<t:template>
+					<Input value="{localDataModel>billto}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCB' 
+				&amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENpayer} === 'X'}" text="Payer"/>
+				<t:template>
+					<Input value="{localDataModel>payer}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} !== 'GCB' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENconsumer} === 'X'}" text="Consumer"/>
+				<t:template>
+					<Input value="{localDataModel>consumer} - {localDataModel>consumername}" showValueHelp="true" valueHelpRequest="onConsumerRequest"
+						valueHelpOnly="true" enabled="{= ((${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'CNC') 
+							&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp;
+							${localDataModel>/fdrstatus} !== 'CHSCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+							&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' 
+							&amp;&amp; ${localDataModel>deletionflag} !== 'X') || ((${tileIdentityModel>/role} === 'ADMIN' &amp;&amp; 
+							(${localDataModel>/viewmode} !== 'DISPLAY' || ${localDataModel>/fdrstatus} === 'RELSD')) || 
+							(${tileIdentityModel>/role} === 'SUPADM' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'))}"> <!-- @Task 319741, 341435, 349970 -->
+						<customData>
+							<core:CustomData key="path" value="consumer"/>
+							<core:CustomData key="fieldsToSet" value="/consumer,/consumername"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} !== 'GCB' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENinvrecipent} === 'X'}" text="Invoice Recipient" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>invrecipent} - {localDataModel>invrecipientname}" enabled="{= ${localDataModel>resys} !== 'CHEMGSAP' &amp;&amp; 
+						${localDataModel>resys} !== 'LUMINON' &amp;&amp; ${localDataModel>resys} !== 'MAGELLAN' &amp;&amp; 
+						${localDataModel>resys} !== 'STNSAP' &amp;&amp; ${localDataModel>resys} !== 'S4PL' &amp;&amp; 
+						${localDataModel>resys} !== 'EPNG' &amp;&amp; ${localDataModel>resys} !== 'OTHER' &amp;&amp; 
+						${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+						${localDataModel>/fdrstatus} !== 'CHRNA'  &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+						&amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'CNC' 
+						|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>deletionflag} !== 'X'}" 
+						showValueHelp="true" valueHelpRequest="onInvoiceRecipRequest" valueHelpOnly="true"> <!-- @Task 319741, 341435 -->
+						<customData>
+							<core:CustomData key="path" value="invrecipent"/>
+							<core:CustomData key="fieldsToSet" value="/invrecipent,/invrecipientname"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} !== 'GCB' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENbudgetholder} === 'X'}" text="Budget Holder" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>budgetholder} - {localDataModel>budgetholdername}" showValueHelp="true" valueHelpRequest="onBudgetHolderRequest"
+						valueHelpOnly="true" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || 
+						${tileIdentityModel>/role} === 'CNC' || ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; 
+						${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+						${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+						&amp;&amp; ${localDataModel>deletionflag} !== 'X'}"> <!-- @Task 319741, 341435 -->
+						<customData>
+							<core:CustomData key="path" value="budgetholder"/>
+							<core:CustomData key="fieldsToSet" value="/budgetholder,/budgetholdername"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/BENrefofbusiness} === 'X'}" text="Reference Of Business" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>refofbusiness}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="15rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/BENbeneficiaryper} === 'X'}" text="Beneficiary Percentage"/>
+				<t:template>
+					<Input value="{localDataModel>beneficiaryper}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="15rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/BENbeneficiaryamt} === 'X'}" text="Beneficiary Amount"/>
+				<t:template>
+					<Input value="{localDataModel>beneficiaryamt}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || 
+						${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+						!${localDataModel>/fdrstatus}.startsWith('CH') &amp;&amp; ${localDataModel>deletionflag} !== 'X'}"/> <!-- @Task 341435 -->
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 271625 -->
+			<t:Column width="6rem" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+				<Label text="Allocated Currency" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>currency}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label text="Year" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>finyear}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label text="Quarter" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>qtr}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 271625 -->
+			<t:Column width="10rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label required="{= ${mandateIndicatorModel>/BENrrbprojdef} === 'X'}" text="SIPC Project Def" wrapping="true"/>
+				<t:template>
+					<Input enabled="false" value="{localDataModel>rrbprojdef}"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="12rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label required="{= ${mandateIndicatorModel>/BENsipcrecwbse} === 'X'}" text="SIPC Recovery WBS" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>sipcrecwbse}" enabled="false" showValueHelp="true" valueHelpRequest="onHUBWBSValueHelp"> <!-- @Task 319741 -->
+						<customData>
+							<core:CustomData key="fragmentName" value="GSAPBillWBSValueHelp"/>
+							<core:CustomData key="fragVariable" value="gsapbillwbsFrag"/>
+							<core:CustomData key="projDefField" value="rrbprojdef"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label required="{= ${mandateIndicatorModel>/BENmcsprojdef} === 'X'}" text="MCS Project Def" wrapping="true"/>
+				<t:template>
+					<Input enabled="false" value="{localDataModel>mcsprojdef}"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="12rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label required="{= ${mandateIndicatorModel>/BENmcswbsse} === 'X'}" text="MCS WBS" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>mcswbsse}" enabled="false">
+						<customData>
+							<core:CustomData key="fragmentName" value="GSAPAccWBSValueHelp"/>
+							<core:CustomData key="fragVariable" value="gsapwbsFrag"/>
+							<core:CustomData key="projDefField" value="rrbprojdef"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 271625 --> 
+			<t:Column width="12rem" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENrecoverycc} === 'X'}" text="Recovery Cost Center" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>recoverycc}" showValueHelp="true" valueHelpRequest="onOpenWindow" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>deletionflag} !== 'X'
+						&amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+						<customData>
+							<core:CustomData key="fragmentName" value="RecoveryCCValueHelp"/>
+							<core:CustomData key="fragVariable" value="recoveryCCFrag"/>
+							<core:CustomData key="path" value="recoverycc"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 271625 -->
+			<t:Column width="10rem" visible="false"><!-- @Task 215703 -->
+				<Label required="{= ${mandateIndicatorModel>/BENengagmentstatus} === 'X'}" text="Engagement Status" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>engagmentstatus}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCB' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/business} === 'UP' &amp;&amp; 
+					${localDataModel>/onlyproject} === 'N' &amp;&amp; (${localDataModel>/fdrstatus} === 'INPR' || ${localDataModel>/fdrstatus} === 'PNGSR' 
+					|| ${localDataModel>/fdrstatus} === 'CHGSR')}" text="Engagement Number" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>engagmentno}" enabled="{= (${localDataModel>/fdrroute} === 'GCB' || 
+						${localDataModel>/fdrroute} === 'GCF' || ((${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>/onlyproject} === 'N') || (${tileIdentityModel>/role} === 'SUPADM' &amp;&amp; ${localDataModel>/workflowflag} === 'X') 
+						|| ${localDataModel>/fdrstatus} === 'PNGSR') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+						&amp;&amp; ${localDataModel>deletionflag} !== 'X'}"/> <!-- @Task 319741, 341435 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} === 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/BENsbmpo} === 'X'}" text="Invoice Split By Multiple Receiver Required" wrapping="true"/>
+				<t:template>
+					<CheckBox selected="{= ${localDataModel>sbmpo} === 'X'}" select="onCheckBoxChange" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"> <!-- @Task 341435 -->
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} === 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/BENsmgtd} === 'X'}" text="Suppress Service Type Description on Invoices" wrapping="true"/>
+				<t:template>
+					<CheckBox selected="{= ${localDataModel>smgtd} === 'X'}" select="onCheckBoxChange" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+						${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"> <!-- @Task 341435 -->
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} === 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/BENssgbs} === 'X'}" text="Suppress the System generated Backing Sheet Reqd" wrapping="true"/>
+				<t:template>
+					<CheckBox selected="{= ${localDataModel>ssgbs} === 'X'}" select="onCheckBoxChange" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+						${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"> <!-- @Task 319741, 341435 -->
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label required="{= ${mandateIndicatorModel>/BENbencosttyp} === 'X'}" text="Beneficiary Cost Type" wrapping="true"/>
+				<t:template>
+					<Select selectedKey="{localDataModel>bencosttyp}" change="onLineItemSelectChange" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' 
+					&amp;&amp; ${localDataModel>deletionflag} !== 'X' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+						<items>
+							<core:Item key="CC" text="Cost Center"/>
+							<core:Item key="WBS" text="WBS"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label required="{= ${mandateIndicatorModel>/BENcostobjval} === 'X'}" text="Beneficiary Cost Object" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>costobjval}" valueHelpRequest="onBenCostObjRequest" showValueHelp="true"
+						enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>deletionflag} !== 'X' &amp;&amp; 
+							${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+						<customData>
+							<core:CustomData key="costTypeField" value="bencosttyp"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/business} === 'UP'}">
+				<Label required="{= ${mandateIndicatorModel>/BENvendorno} === 'X'}" text="Vendor No"/>
+				<t:template>
+					<Input value="{localDataModel>vendorno}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>deletionflag} !== 'X' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+						&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"></Input> <!-- @Task 341435 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCB' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+				<Label required="{= ${mandateIndicatorModel>/BENautoapproval} === 'X'}" text="Invoice Recipient Auto Approval" wrapping="true"/>
+				<t:template>
+					<!-- @Task 302226 -->
+					<Select forceSelection="false" selectedKey="{= ${localDataModel>autoapproval}}" change="onLineItemSelectChange" 
+						visible="{= ${localDataModel>resys} === 'EPBP' || ${localDataModel>resys} === 'EPBR'}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+						&amp;&amp; ${localDataModel>deletionflag} !== 'X'}"> <!-- @Task 341435 -->
+						<items>
+							<core:Item key="Y" text="Yes"/>
+							<core:Item key="N" text="No"/>
+							<core:Item key="" text=""/> <!-- @Task 302226 -->
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 312428 -->
+			<!-- <t:Column width="15rem" visible="{= ${localDataModel>/fdrroute} === 'DIR' &amp;&amp; ${localDataModel>/business} === 'UP'}">
+				<Label required="{= ${mandateIndicatorModel>/BEN} === 'X'}" text="Recipient Coding"/>
+				<t:template>
+					<Select selectedKey="{= ${localDataModel>codeby}}" change="onLineItemSelectChange" forceSelection="false"
+						enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'CNC') &amp;&amp; 
+						(!${localDataModel>engagmentno} || ${localDataModel>engagmentno} === '') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}">
+						<items>
+							<core:Item key="CBEG" text="Code by Engagement"/>
+							<core:Item key="CBST" text="Code by Service Type"/>
+							<core:Item key="CBPW" text="Code by Provider WBSE"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column> -->
+			<!-- @END: Task 312428 -->
+			<!-- @START: Task 228336, 312428 -->
+			<t:Column width="15rem" visible="{= ${localDataModel>/fdrroute} === 'DIR' &amp;&amp; ${localDataModel>/fdrrecovertype}.toUpperCase().startsWith('NON PROJECT')}">
+				<Label required="{= ${mandateIndicatorModel>/BEN} === 'X'}" text="Recipient Coding"/>
+				<t:template>
+					<Select selectedKey="{= ${localDataModel>codeby}}" change="onLineItemSelectChange" 
+						enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'CNC' 
+							|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'}" forceSelection="false"> <!-- @Task 319741, 341435 -->
+						<items>
+							<core:Item key="CBEG" text="Code by Engagement"/>
+							<core:Item key="CBST" text="Code by Service Type"/>
+							<core:Item key="CBPW" text="Code by Provider WBSE"/>
+							<core:Item key="CBPC" text="Code by Profit Center"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<t:Column width="15rem" visible="{= ${localDataModel>/fdrroute} === 'DIR' &amp;&amp; !${localDataModel>/fdrrecovertype}.toUpperCase().startsWith('NON PROJECT')}">
+				<Label required="{= ${mandateIndicatorModel>/BEN} === 'X'}" text="Recipient Coding"/>
+				<t:template>
+					<Select selectedKey="{= ${localDataModel>codeby}}" change="onLineItemSelectChange" 
+					enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'CNC' 
+						|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'}" forceSelection="false">  <!-- @Task 319741, 341435 -->
+						<items>
+							<core:Item key="CBEG" text="Code by Engagement"/>
+							<core:Item key="CBST" text="Code by Service Type"/>
+							<core:Item key="CBPW" text="Code by Provider WBSE"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 228336, 312428 -->
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} === 'DIR'}">
+				<Label text="Recipient Coding" wrapping="true"/>
+				<t:template>
+					<Button icon="sap-icon://source-code" press="onRCCodingPress" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' 
+						|| ${tileIdentityModel>/role} === 'CNC' || ${tileIdentityModel>/role} === 'DISPLAY' || ${tileIdentityModel>/role} === 'SUPADM') 
+						&amp;&amp; ${localDataModel>codeby} !== '' &amp;&amp; ((${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR') || ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; 
+						!${localDataModel>/fdrstatus}.startsWith('CL')}"/> <!-- @Task 341209, 319741 -->
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 274288 -->
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label text="Close" wrapping="true"/>
+				<t:template>
+					<Button tooltip="Click to Close Engagement" icon="sap-icon://sys-cancel-2" press="onCloseEngagement" 
+						enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>engagmentno} !== '' &amp;&amp; 
+						${localDataModel>deletionflag} !== 'X' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341435 -->
+						<customData>
+							<core:CustomData key="section" value="beneficiary"/>
+						</customData>
+					</Button>
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} === 'EBD'}">
+				<Label text="Deletion Indicator" wrapping="true"/>
+				<t:template>
+					<core:Icon src="sap-icon://delete" class="size4" visible="{= ${localDataModel>deletionflag} === 'X'}"/>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 274288 -->
+		</t:columns>
+	</t:Table>
+</core:FragmentDefinition>

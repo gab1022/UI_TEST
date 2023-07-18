@@ -1,0 +1,111 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Dialog title="Recipient Coding">
+		<content>
+			<Table growing="true" growingScrollToLoad="true" width="50rem" mode="None" items="{path:'localDataModel>/rccoding'}">
+				<columns>
+					<Column width="2rem">
+						<header>
+							<Text text="Item No"/>
+						</header>
+					</Column>
+					<Column width="15rem">
+						<header>
+							<Text text="Service Type"/>
+						</header>
+					</Column>
+					<Column width="10rem">
+						<header>
+							<Text text="GL Account"/>
+						</header>
+					</Column>
+					<Column width="8rem">
+						<header>
+							<Text text="Cost Center"/>
+						</header>
+					</Column>
+					<Column width="8rem">
+						<header>
+							<Text text="Provider WBS"/>
+						</header>
+					</Column>
+					<Column width="8rem">
+						<header>
+							<Text text="WBS Description"/>
+						</header>
+					</Column>
+					<Column width="8rem">
+						<header>
+							<Text text="Profit Center"/>
+						</header>
+					</Column>
+					<Column width="15rem">
+						<header>
+							<Text text="Cost Object Type"/>
+						</header>
+					</Column>
+					<Column width="20rem">
+						<header>
+							<Text text="Cost Object Value"/>
+						</header>
+					</Column>
+					<Column width="20rem">
+						<header>
+							<Text text="Statistical WBSE"/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem>
+					<cells>
+						<Input value="{localDataModel>itemno}" enabled="false"></Input>
+						<Select forceSelection="false" enabled="false" items="{fdrPlusFeedOdataModel>/codebyservicetype}" selectedKey="{localDataModel>servicetype}">
+							<items>
+								<core:Item key="{fdrPlusFeedOdataModel>servicecode}" text="{fdrPlusFeedOdataModel>servicecodedesc}({fdrPlusFeedOdataModel>servicecode})"/>
+							</items>
+						</Select>
+						<Input value="{localDataModel>glaccount}" enabled="{= ${localDataModel>glaccenabled} !== false &amp;&amp; ${localDataModel>costobjtyp} !== 'PO' &amp;&amp; 
+							${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+							${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"></Input> <!-- @Task 341209 -->
+						<Input value="{localDataModel>costcenter}" enabled="false"></Input>
+						<Input value="{localDataModel>providerwbs}" enabled="false"></Input>
+						<Input value="{localDataModel>providerwbsdesc}" enabled="false" maxLength="40"></Input>
+						<Input value="{localDataModel>profitcenter}" enabled="false"></Input>
+						<HBox>
+						<Select enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+							${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}" 
+							selectedKey="{localDataModel>costobjtyp}" items="{rcCodIndicatorModel>/costObjects}" change="onLineItemSelectChange"> <!-- @Task 341209 -->
+							<items>
+								<core:Item key="{rcCodIndicatorModel>key}" text="{rcCodIndicatorModel>desc}"/>
+							</items>
+						</Select>
+						</HBox>
+						<Input value="{localDataModel>costobj}" valueHelpRequest="onBenCostObjRequest" 
+							showValueHelp="{= (${localDataModel>/benifCompanies/0/resys} === 'SERP' || ${localDataModel>/benifCompanies/0/resys} === 'GSAP')
+							&amp;&amp; (${localDataModel>costobjtyp} === 'CC' || ${localDataModel>costobjtyp} === 'WBS')}"
+							enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+							${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"> <!-- @Task 341209 -->
+							<customData>
+								<core:CustomData key="costTypeField" value="costobjtyp"/>
+							</customData>
+						</Input>
+						<Input value="{localDataModel>statco}" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+							${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; 
+							${localDataModel>costobjtyp} === 'CWBS'}" visible="{= ${localDataModel>costobjtyp} === 'CWBS'}"> <!-- @Task 341209 -->
+						</Input>
+					</cells>
+				</ColumnListItem>
+			</Table>
+		</content>
+		<customData>
+			<core:CustomData key="modelName" value="localDataModel"/>
+		</customData>
+		<buttons>
+			<Button text="Refresh" visible="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/benifCompanies/0/codeby} === 'CBPW' &amp;&amp; 
+				((${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+				&amp;&amp; ${localDataModel>/business} === 'UP') || ${localDataModel>/business} === 'DS')}" press="onRCCodingRefresh"/> <!-- @Task 341209, 342207 -->
+			<Button text="OK" type="Accept" press="onRCCodingFragSave" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+				${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"/> <!-- @Task 341209 -->
+			<!-- <Button text="Cancel" type="Reject" press="onRCCodingFragClose"/> -->
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

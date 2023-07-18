@@ -1,0 +1,56 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<TableSelectDialog noDataText="No Company Codes Found" title="Select Provider Company Code" search="onMultiPropSearch"
+		confirm="onProviderSelectionConfirm" cancel="handleClose" multiSelect="true" rememberSelections="false"
+		items="{ path : 'oProvCompCodeModel>/results', sorter : { path : 'Erpcc', descending : false }, filters:[{path:'Sysid', operator: 'EQ', value1:'SERP'},{path:'Sysid', operator: 'EQ', value1:'GSAP'}] }">
+		<columns>
+			<Column width="8rem">
+				<header>
+					<Text text="{i18n>compCode}"/>
+				</header>
+			</Column>
+			<Column  width="12rem">
+				<header>
+					<Text text="{i18n>compName}"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Tablet" demandPopin="true"  width="5rem">
+				<header>
+					<Text text="{i18n>aoo}"/>
+				</header>
+			</Column>
+			<!-- @START: Task 245235 -->
+			<Column minScreenWidth="Tablet" demandPopin="true"  width="10rem">
+				<header>
+					<Text text="AOO Description"/>
+				</header>
+			</Column>
+			<!-- @END: Task 245235 -->
+			<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center" width="5rem">
+				<header>
+					<Text text="{i18n>grpCompCode}"/>
+				</header>
+			</Column>
+			<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center" width="5rem">
+				<header>
+					<Text text="{i18n>sys}"/>
+				</header>
+			</Column>
+		</columns>
+		<ColumnListItem>
+			<cells>
+				<Text text="{oProvCompCodeModel>Erpcc}"/>
+				<Text text="{oProvCompCodeModel>Cname}"/>
+				<Text text="{oProvCompCodeModel>Aofop}"/>
+				<Text text="{oProvCompCodeModel>Aotxt}"/> <!-- @Task 245235 -->
+				<Text text="{oProvCompCodeModel>Grpcc}"/>
+				<Text text="{oProvCompCodeModel>Sysid}"/>
+			</cells>
+		</ColumnListItem>
+		<customData>
+			<core:CustomData key="searchField" value="Erpcc,Cname,Grpcc,Aofop"/> <!-- @Task 341121 -->
+			<core:CustomData key="fragControl" value="_oTable"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+			<core:CustomData key="modelName" value="oProvCompCodeModel"/>
+		</customData>
+	</TableSelectDialog>
+</core:FragmentDefinition>

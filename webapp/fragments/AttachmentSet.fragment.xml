@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:custom="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.js">
+	<Dialog title="Attachment List">
+		<content>
+			<!-- @START: Task 346718 -->
+			<!-- <List items="{attachmentLocalModel>/results}" noDataText="No Attachment for the FDR">
+				<items>
+					<StandardListItem title="{attachmentLocalModel>FileName}" type="Active" press="onAttachmentClick"/>
+				</items>
+			</List> -->
+			<custom:CustomUploadCollection items="{attachmentLocalModel>/results}" maximumFilenameLength="55" maximumFileSize="10"
+				multiple="true" sameFilenameAllowed="false" instantUpload="false" noDataDescription="{i18n>attachmentNoDataDesc}" change="onChangeDocUpload"
+				uploadEnabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} !== 'ADMIN' &amp;&amp; 
+				${tileIdentityModel>/role} !== 'SUPADM'}" uploadComplete="onUploadComplete" fileSizeExceed="onFileSizeExceed" uploadTerminated="onDelete" 
+				beforeUploadStarts="onBeforeUploadStarts">
+				<custom:items>
+					<UploadCollectionItem
+						url="{parts:[{ path : 'attachmentLocalModel>FileName' }, { path : 'attachmentLocalModel>FDRNo' }],formatter:'.setAttachmentURLPath'}" 
+						documentId="{attachmentLocalModel>FileName} {attachmentLocalModel>FDRNo}" fileName="{attachmentLocalModel>FileName}" enableEdit="false"
+						enableDelete="false" visibleEdit="false" visibleDelete="false" press="onAttachmentClick">
+						<attributes>
+							<ObjectAttribute xmlns="sap.m" title="Uploaded On" text="{path: 'attachmentLocalModel>CreationDate',
+						        type: 'sap.ui.model.type.Date',
+						        formatOptions: {
+						          pattern: 'MMM dd, yyyy hh:mm aaa'
+						        }}"/>
+							<ObjectAttribute xmlns="sap.m" title="Uploaded By" text="{attachmentLocalModel>UploadedBy}"/>
+						</attributes>
+					</UploadCollectionItem>
+				</custom:items>
+			</custom:CustomUploadCollection>
+			<!-- @END: Task 346718 -->
+		</content>
+		<buttons>
+			<Button text="Upload" type="Accept" press="onUploadAttachments" visible="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+				${tileIdentityModel>/role} !== 'ADMIN' &amp;&amp; ${tileIdentityModel>/role} !== 'SUPADM'}"/>
+			<Button text="Close" type="Reject" press="onAttachmentFragClose"/>
+		</buttons>
+	</Dialog>
+	
+</core:FragmentDefinition>

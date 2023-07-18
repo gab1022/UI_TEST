@@ -1,0 +1,34 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Dialog title="Provider Confirmer">
+		<buttons>
+			<Button text="Cancel" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="providerConfirmgcr"/>
+				</customData>
+			</Button>
+		</buttons>
+		<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ADSearch" type="XML"></core:Fragment>
+		<List noDataText="{i18n>noData}" items="{ path: 'providerConfirmerLocalModel>/results'}" itemPress="onListUserSelect">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Select a Provider Confirmer" level="H6"></Title>
+				</OverflowToolbar>
+			</headerToolbar>
+			<items>
+				<StandardListItem title="{providerConfirmerLocalModel>providerconfirmer}" description="{providerConfirmerLocalModel>providerconfirmername}" 
+					type="Active"/>
+			</items>
+			<customData>
+				<core:CustomData key="selctionBindingContext" value="providerConfirmerLocalModel"/>
+				<core:CustomData key="fragControl" value="_oList"/>
+				<core:CustomData key="fragBindingInfo" value="items"/>
+				<core:CustomData key="fragVariable" value="providerConfirmgcr"/>
+			</customData>
+		</List>
+		<customData>
+			<core:CustomData key="selctionBindingContext" value="providerConfirmerLocalModel"/>
+			<core:CustomData key="displayFields" value="providerconfirmer,providerconfirmername"/>
+		</customData>
+	</Dialog>
+</core:FragmentDefinition>

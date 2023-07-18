@@ -1,0 +1,128 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Dialog title="IM Parameters for Complex Project (Refer Attachments for Template)">
+		<content>
+			<Table growing="true" growingScrollToLoad="true" width="60rem" mode="{= ((${tileIdentityModel>/role} === 'RNA' || 
+				(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; (${localDataModel>/fdrstatus} !== 'RELSD'
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL'))) ? 'Delete' : 'None'}"
+				items="{ 
+				path : 'localDataModel>/addlProjDetails',
+				filters:[{path:'code', operator:'EQ', value1:'IMCX'},{path:'deletionflag', operator:'NE', value1:'X'}]}"
+				delete="onDeleteRowIMComplex">
+				<headerToolbar>
+					<OverflowToolbar>
+						<content>
+							<ToolbarSpacer></ToolbarSpacer>
+							<Button icon="sap-icon://add" press="onAddRowIMComplex" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}"></Button>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="5em">
+						<header>
+							<Label text="Billable WBSE" required="true"/>
+						</header>
+					</Column>
+					<Column width="5em">
+						<header>
+							<Label text="Year" required="true"/>
+						</header>
+					</Column>
+					<Column width="10rem">
+						<header>
+							<Label text="Investment Program" required="true"/>
+						</header>
+					</Column>
+					<Column width="10rem">
+						<header>
+							<Label text="Investment Position" required="true"/>
+						</header>
+					</Column>
+					<!-- @START: Task 306868 -->
+					<Column width="10rem">
+						<header>
+							<Label text="Profit Center"/>
+						</header>
+					</Column>
+					<Column width="10rem">
+						<header>
+							<Label text="Responsible Cost Center"/>
+						</header>
+					</Column>
+					<!-- @END: Task 306868 -->
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Input value="{localDataModel>value}" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}"/>
+							<Input value="{localDataModel>approvalyear}" change="onYearChange" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}"/>
+							<Input value="{localDataModel>investmentprogramid}" showValueHelp="true" valueHelpOnly="true" 
+								valueHelpRequest="onIMValueHelpOpen" change="onInvProgramChange" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+								<customData>
+									<core:CustomData key="valHelpFragment" value="InvestmentProgramID"></core:CustomData>
+								</customData>
+							</Input>
+							<Input value="{localDataModel>investmentpositionid}" showValueHelp="true" valueHelpOnly="true" 
+								valueHelpRequest="onIMValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+								<customData>
+									<core:CustomData key="valHelpFragment" value="InvestmentPositionID"></core:CustomData>
+								</customData>
+							</Input>
+							<!-- @START: Task 306868 -->
+							<Input value="{localDataModel>profitcenter}" showValueHelp="true" valueHelpOnly="true" 
+								valueHelpRequest="onIMValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+								<customData>
+									<core:CustomData key="valHelpFragment" value="ProfitCenter"></core:CustomData>
+								</customData>
+							</Input>
+							<Input value="{localDataModel>respcostcntr}" showValueHelp="true" valueHelpOnly="true" 
+								valueHelpRequest="onIMValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+								(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+								<customData>
+									<core:CustomData key="valHelpFragment" value="ResponsibleCostCenter"></core:CustomData>
+								</customData>
+							</Input>
+							<!-- @END: Task 306868 -->
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<buttons>
+			<Button text="Save" type="Accept" press="onComplexIMSave" enabled="{= (${tileIdentityModel>/role} === 'RNA' || 
+				(${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X')) &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+				&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}"/>
+			<Button text="Cancel" type="Reject" press="onComplexIMCancel"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

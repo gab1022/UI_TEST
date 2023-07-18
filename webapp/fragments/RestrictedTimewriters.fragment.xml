@@ -1,0 +1,27 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog title="Restricted Timewriters">
+		<buttons>
+			<Button text="Close" press="onCloseRestrictedTW" />
+		</buttons>
+		<content>
+			<Table items="{localDataModel>/ccTimewriters}">
+				<columns>
+					<Column><Text text="Personnel Number"></Text></Column>
+					<Column><Text text="User ID"></Text></Column>
+					<Column><Text text="Full Name"></Text></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{localDataModel>personid}"></Text>
+							<Text text="{localDataModel>userid}"></Text>
+							<Text text="{localDataModel>personname}"></Text>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

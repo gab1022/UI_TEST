@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="{i18n>noData}" title="Select an Plan FDR" search="valueHelpSearch" confirm="onHeaderSearchConfirm"
+		cancel="onValueHelpCancel" items="{ path: 'planFDRODataModel>/gcfdrhdr',filters:[{path:'business',operator:'EQ',value1:'DS'}]}">
+		<items>
+			<StandardListItem title="{planFDRODataModel>gcplanfdrno}" description="{planFDRODataModel>finyear}" type="Active"/>
+		</items>
+		<customData>
+			<core:CustomData key="selctionBindingContext" value="planFDRODataModel"/>
+			<core:CustomData key="selctionParameter" value="selectedItem"/>
+			<core:CustomData key="searchField" value="gcplanfdrno"/>
+			<core:CustomData key="fragControl" value="_oList"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

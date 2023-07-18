@@ -1,0 +1,33 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Dialog title="Budget Holder">
+		<buttons>
+			<Button text="Cancel" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="budgetholderadfrag"/>
+				</customData>
+			</Button>
+		</buttons>
+		<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ADSearch" type="XML"></core:Fragment>
+		<List noDataText="{i18n>noData}" items="{ path: 'budgetHolderLocalModel>/results'}" itemPress="onListUserSelect">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Select a Budget Holder" level="H6"></Title>
+				</OverflowToolbar>
+			</headerToolbar>
+			<items>
+				<StandardListItem title="{budgetHolderLocalModel>budgetholder}" description="{budgetHolderLocalModel>budgetholdername}" type="Active"/>
+			</items>
+			<customData>
+				<core:CustomData key="selctionBindingContext" value="budgetHolderLocalModel"/>
+				<core:CustomData key="fragControl" value="_oList"/>
+				<core:CustomData key="fragBindingInfo" value="items"/>
+				<core:CustomData key="fragVariable" value="budgetholderadfrag"/>
+			</customData>
+		</List>
+		<customData>
+			<core:CustomData key="selctionBindingContext" value="budgetHolderLocalModel"/>
+			<core:CustomData key="displayFields" value="budgetholder,budgetholdername"/>
+		</customData>
+	</Dialog>
+</core:FragmentDefinition>

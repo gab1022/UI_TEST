@@ -1,0 +1,54 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog title="Restricted Timewriters">
+		<buttons>
+			<Button text="{i18n>restrictedtwSelect}" press="onAddTimewriters" />
+			<Button text="{i18n>projectClose}" press="onCloseDialog" />
+		</buttons>
+		<content>
+			<HBox class="sapUiSmallMargin">
+				<VBox class="sapUiSmallMarginEnd">
+					<Label text="Personnel Number:"></Label>
+					<Input value="{timewritingModel>/personnelNo}"></Input>
+				</VBox>
+				<VBox class="sapUiSmallMarginEnd">
+					<Label text="User ID:"></Label>
+					<Input value="{timewritingModel>/userID}"></Input>
+				</VBox>
+				<VBox class="sapUiSmallMarginEnd">
+				   <Label text="First Name:"></Label>
+					<Input value="{timewritingModel>/firstName}"></Input>
+				</VBox>
+				<VBox class="sapUiSmallMarginEnd">
+					<Label text="Last Name:"></Label>
+					<Input value="{timewritingModel>/lastName}"></Input>
+				</VBox>
+				<Button class="sapUiSmallMarginTop sapUiSizeCompact" text="Search" press="onSearchTimewriters"></Button>
+			</HBox>
+			<Table items="{masterDataModel>/PersonSet}" mode="MultiSelect">
+				<headerToolbar>
+					<OverflowToolbar>
+						<content>
+							<Title text="Restricted Timewriters" level="H4"></Title>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column><Text text="User ID"></Text></Column>
+					<Column><Text text="Personnel Number"></Text></Column>
+					<Column><Text text="Complete Name"></Text></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{masterDataModel>UserID}"></Text>
+							<Text text="{masterDataModel>PersonNo}"></Text>
+							<Text text="{masterDataModel>FirstName} {masterDataModel>LastName}"></Text>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

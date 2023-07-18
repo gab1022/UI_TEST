@@ -1,0 +1,145 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<t:Table visibleRowCount="{=${localDataModel>/benifCompanies}.length}" rows="{localDataModel>/benifCompanies}">
+		<t:columns>
+			<!-- @START: Task 252320 -->
+			<t:Column width="8rem" visible="true">
+				<Label text="{= ${localDataModel>/fdrhovertexts/RecipientCompanyName} ? ${localDataModel>/fdrhovertexts/RecipientCompanyName} : ${i18n>RecipientCompanyName}}" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>rcaoodesc}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 252320 -->
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/BENbeneficiarycompcode} === 'X'}" text="Beneficiary Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>beneficiarycompcode}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem">
+				<Label required="{= ${mandateIndicatorModel>/BENconsumer} === 'X'}" text="Consumer"/>
+				<t:template>
+					<Input value="{localDataModel>consumer} - {localDataModel>consumername}" showValueHelp="true" valueHelpRequest="onConsumerRequest" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" id="idConsumerInvRec">
+				<Label required="{= ${mandateIndicatorModel>/BENinvrecipent} === 'X'}" text="Invoice Recipient" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>invrecipent} - {localDataModel>invrecipientname}" enabled="{= ${localDataModel>resys} !== 'CHEMGSAP' &amp;&amp; 
+						${localDataModel>resys} !== 'LUMINON' &amp;&amp; ${localDataModel>resys} !== 'MAGELLAN' &amp;&amp; ${localDataModel>resys} !== 'STNSAP' &amp;&amp; 
+						${localDataModel>resys} !== 'S4PL' &amp;&amp; ${localDataModel>resys} !== 'EPNG' &amp;&amp; ${localDataModel>resys} !== 'OTHER' &amp;&amp; 
+						${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}" 
+						showValueHelp="true" valueHelpRequest="onInvoiceRecipRequest" valueHelpOnly="true">
+						<customData>
+							<core:CustomData key="path" value="invrecipent"/>
+							<core:CustomData key="fieldsToSet" value="/invrecipent,/invrecipientname"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" id="idConsumerBudgetHolder">
+				<Label required="{= ${mandateIndicatorModel>/BENbudgetholder} === 'X'}" text="Budget Holder" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>budgetholder} - {localDataModel>budgetholdername}" showValueHelp="true" valueHelpRequest="onBudgetHolderRequest"
+						valueHelpOnly="true" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+						<customData>
+							<core:CustomData key="path" value="budgetholder"/>
+							<core:CustomData key="fieldsToSet" value="/budgetholder,/budgetholdername"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 312428 -->
+			<t:Column width="15rem" id="idConsumerRCCoding" visible="{= ${localDataModel>/fdrroute} === 'DIR' &amp;&amp; !${localDataModel>/fdrrecovertype}.toUpperCase().startsWith('NON PROJECT')}">
+				<Label required="{= ${mandateIndicatorModel>/BEN} === 'X'}" text="Recipient Coding"/>
+				<t:template>
+					<Select selectedKey="{= ${localDataModel>codeby}}" change="onLineItemSelectChange" forceSelection="false"
+						enabled="{= (!${localDataModel>engagmentno} || ${localDataModel>engagmentno} === '') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' 
+							&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+						<items>
+							<core:Item key="CBEG" text="Code by Engagement"/>
+							<core:Item key="CBST" text="Code by Service Type"/>
+							<core:Item key="CBPW" text="Code by Provider WBSE"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<t:Column width="15rem" id="idConsumerRCCodingNP" visible="{= ${localDataModel>/fdrroute} === 'DIR' &amp;&amp; ${localDataModel>/fdrrecovertype}.toUpperCase().startsWith('NON PROJECT')}">
+				<Label required="{= ${mandateIndicatorModel>/BEN} === 'X'}" text="Recipient Coding"/>
+				<t:template>
+					<Select selectedKey="{= ${localDataModel>codeby}}" change="onLineItemSelectChange" forceSelection="false"
+						enabled="{= (!${localDataModel>engagmentno} || ${localDataModel>engagmentno} === '') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' 
+							&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+						<items>
+							<core:Item key="CBEG" text="Code by Engagement"/>
+							<core:Item key="CBST" text="Code by Service Type"/>
+							<core:Item key="CBPW" text="Code by Provider WBSE"/>
+							<core:Item key="CBPC" text="Code by Profit Center"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 312428 -->
+			<t:Column width="5rem">
+				<Label text="Recipient Coding" wrapping="true"/>
+				<t:template>
+					<Button icon="sap-icon://source-code" press="onRCCodingPress" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem">
+				<Label required="{= ${mandateIndicatorModel>/BENerpcomcode} === 'X'}" text="ERP Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>erpcomcode}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="6rem">
+				<Label required="{= ${mandateIndicatorModel>/BENresys} === 'X'}" text="System"/>
+				<t:template>
+					<Input value="{localDataModel>resys}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem">
+				<Label required="{= ${mandateIndicatorModel>/BENrcgrpcomp} === 'X'}" text="Group Company Code" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>rcgrpcomp}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="6rem">
+				<Label required="{= ${mandateIndicatorModel>/BENrcaoo} === 'X'}" text="AOO"/>
+				<t:template>
+					<Input value="{localDataModel>rcaoo}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" id="idConsumerInvoiceSplit">
+				<Label required="{= ${mandateIndicatorModel>/BENsbmpo} === 'X'}" text="Invoice Split By Multiple Receiver Required" wrapping="true"/>
+				<t:template>
+					<CheckBox selected="{= ${localDataModel>sbmpo} === 'X'}" select="onCheckBoxChange" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" id="idConsumerSuppressSvcTypeDesc">
+				<Label required="{= ${mandateIndicatorModel>/BENsmgtd} === 'X'}" text="Suppress Service Type Description on Invoices" wrapping="true"/>
+				<t:template>
+					<CheckBox selected="{= ${localDataModel>smgtd} === 'X'}" select="onCheckBoxChange" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" id="idConsumerSuppressSystemBacking">
+				<Label required="{= ${mandateIndicatorModel>/BENssgbs} === 'X'}" text="Suppress the System generated Backing Sheet Reqd" wrapping="true"/>
+				<t:template>
+					<CheckBox selected="{= ${localDataModel>ssgbs} === 'X'}" select="onCheckBoxChange" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}">
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+		</t:columns>
+	</t:Table>
+</core:FragmentDefinition>

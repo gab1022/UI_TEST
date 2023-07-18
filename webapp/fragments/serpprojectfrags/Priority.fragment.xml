@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Priority"
+		class="sapUiPopupWithPadding"
+		items="{path: 'serpProjectCreationODataModel>/prioritySet', filters: [{
+			path: 'Language', operator : 'EQ', value1 : 'E'
+		}]}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProjectCreationODataModel>Priority}"
+			info=""
+			description="{serpProjectCreationODataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="Priority"></core:CustomData>
+			<core:CustomData key="formProp" value="Priority"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

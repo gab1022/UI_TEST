@@ -1,0 +1,232 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<!-- @Task 290069 -->
+	<Toolbar>
+		<ToolbarSpacer/>
+		<Button icon="sap-icon://add" press="onProviderAdd" visible="{= ${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' 
+		|| ${tileIdentityModel>/role} === 'SUPADM'}" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; (!${localDataModel>/fdrstatus}.startsWith('CH')
+		|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/disableaction} !== 'Y'}" > <!-- @Task 319741, 341435 -->
+			<customData>
+				<core:CustomData key="fragmentName" value="ProvcompanyCode"/>
+				<core:CustomData key="fragVariable" value="providerFrag"/>
+				<core:CustomData key="fragModelName" value="oProvCompCodeModel"/>
+				<core:CustomData key="fragoDataModelName" value="serp150ODataModel"/>
+				<core:CustomData key="fragOdataEntitySet" value="CompCodeSet"/>
+			</customData>
+		</Button>
+		<Button icon="sap-icon://delete" press="onLineItemDelete" visible="{= ${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'}" enabled="{= ${localDataModel>/workflowflag} !== 'X' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+			&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH') &amp;&amp; ${localDataModel>/disableaction} !== 'Y'}"> <!-- @Task 341435 -->
+			<customData>
+				<core:CustomData key="bindingValue" value="providerCompanies"/>
+			</customData>
+		</Button>
+	</Toolbar>
+	<t:Table visibleRowCount="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') ? 6 : ${localDataModel>/providerCompanies}.length}" 
+		rows="{path: 'localDataModel>/providerCompanies'}">
+		<t:columns>
+			<t:Column width="5rem" visible="{= ${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'}">
+				<Label text="Action"/>
+				<t:template>
+					<Button visible="{localDataModel>addPlus}" tooltip="Click to Add Sub line item" icon="sap-icon://add"
+						press="onAddSubProvider" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')
+							&amp;&amp; ${localDataModel>deletionflag} !== 'X'}"/> <!-- @Task 341435 -->
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 252320 -->
+			<t:Column width="8rem" visible="true">
+				<Label text="Service Providing Company Name" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>provideraoodesc}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 252320 -->
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/PRprovidercompcode} === 'X'}" text="{i18n>compCode}" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>providercompcode}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/PRprovidersystem} === 'X'}" text="{i18n>sys}"/>
+				<t:template>
+					<Input value="{localDataModel>providersystem}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/PRprovidergroupcompany} === 'X'}" text="{i18n>grpCompCode}" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>providergroupcompany}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/PRprovideraoo} === 'X'}" text="{i18n>aoo}" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>provideraoo}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/PRproviderconfirmer} === 'X'}" text="{i18n>provConf}" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>providerconfirmer} - {localDataModel>providerconfirmername}" valueHelpRequest="onProviderConfirmerRequest" showValueHelp="true" 
+						valueHelpOnly="true"
+						enabled="{= (${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD'
+							&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>deletionflag} !== 'X' &amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF')) 
+							|| ((${tileIdentityModel>/role} === 'ADMIN' &amp;&amp; (${localDataModel>/viewmode} !== 'DISPLAY' || ${localDataModel>/fdrstatus} === 'RELSD')) || 
+							(${tileIdentityModel>/role} === 'SUPADM' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'))}" > <!-- @Task 319741, 341435, 349970 -->
+						<customData>
+							<core:CustomData key="path" value="providerconfirmer"/>
+							<core:CustomData key="fieldsToSet" value="/providerconfirmer,/providerconfirmername"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="2rem" visible="false">
+				<Label required="{= ${mandateIndicatorModel>/PRbillingmethodcode} === 'X'}" text="Billing Method"/>
+				<t:template>
+					<Input value="{localDataModel>billingmethodcode}"></Input>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 241100 -->
+			<!--<t:Column width="10rem" visible="{= ${localDataModel>/fdrroute} === 'DIR' &amp;&amp; ${localDataModel>/business} === 'DS'}">
+				<Label required="{= ${mandateIndicatorModel>/PRcleancostcenter} === 'X'}" text="Clean Cost Center" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>cleancostcenter}" showValueHelp="true" valueHelpRequest="onCleanCCSearchHelp" change="onCleanCostCenterChange"
+						enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY'}">
+						<customData>
+							<core:CustomData key="fragmentName" value="GSAPCleanCCSearch"/>
+							<core:CustomData key="fragVariable" value="gsapcleanccFrag"/>
+						</customData>
+					</Input>
+				</t:template>
+			</t:Column>-->
+			<!-- @END: Task 241100 -->
+			<t:Column width="8rem" visible="{=${localDataModel>/business} !== 'UP'}">
+				<Label required="{= ${mandateIndicatorModel>/PRprovidercosttyp} === 'X'}" text="Provider Cost Type" wrapping="true"/>
+				<t:template>
+					<Select selectedKey="{localDataModel>providercosttyp}" change="onLineItemSelectChange" 
+						enabled="{= (${tileIdentityModel>/role} === 'GSR'  || ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'
+						&amp;&amp; !${localDataModel>/fdrroute}.startsWith('GC') &amp;&amp; ${localDataModel>deletionflag} !== 'X'}"> <!-- @Task 319741, 341435 -->
+						<items>
+							<core:Item key="CC" text="Cost Center"/>
+							<core:Item key="WBS" text="WBS"/>
+						</items>
+					</Select>
+				</t:template>
+			</t:Column>
+			<t:Column width="12rem" visible="true">
+				<Label required="{= ${mandateIndicatorModel>/PRprovidercostobj} === 'X'}" text="{=${localDataModel>/business} !== 'UP' ? 'Provider Cost Object' : 'Provider WBSE'}"/>
+				<t:template>
+					<Input value="{localDataModel>providercostobj}" valueHelpRequest="onProviderCostObjRequest"
+						editable="{= ${localDataModel>cleancostflag} !== 'X'}" enabled="{= ${localDataModel>cleancostflag} !== 'X' 
+							&amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'  || ${tileIdentityModel>/role} === 'SUPADM') 
+							&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; (!${localDataModel>/fdrstatus}.startsWith('CH') || 
+							${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>deletionflag} !== 'X'}" valueHelpOnly="{= ${localDataModel>cleancostflag} !== 'X'}" 
+							showValueHelp="{= ${localDataModel>cleancostflag} !== 'X'}"/> <!-- @Task 319741, 341435 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="8rem" visible="{= ${tileIdentityModel>/role} !== 'CNC'}">
+				<Label required="{= ${mandateIndicatorModel>/PRprprftcenter} === 'X'}" text="Profit Center"/>
+				<t:template>
+					<Input value="{localDataModel>prprftcenter}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'
+						|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+						(!${localDataModel>/fdrstatus}.startsWith('CH') || ${tileIdentityModel>/role} === 'SUPADM')
+						&amp;&amp; ${localDataModel>deletionflag} !== 'X'}" showValueHelp="{= ${localDataModel>providersystem} === 'SERP'}" 
+						valueHelpRequest="onPrProfitCenterSearch"> <!-- @Task 319741, 341435 -->
+					</Input>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="false"> <!-- @Task 215703 -->
+				<Label required="{= ${mandateIndicatorModel>/PRengagmentstatus} === 'X'}" text="Engagement Status" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>engagmentstatus}" enabled="false"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label required="{= ${mandateIndicatorModel>/PRengagmentno} === 'X'}" text="Engagement Number" wrapping="true"/>
+				<t:template>
+					<Input value="{localDataModel>engagmentno}" enabled="{= ${localDataModel>/business} === 'UP' &amp;&amp; ${localDataModel>/onlyproject} === 'N' &amp;&amp; 
+						${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"/> <!-- @Task 341435 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC'}">
+				<Label required="{= ${mandateIndicatorModel>/PRprojectdef} === 'X'}" text="Project Def"/>
+				<t:template>
+					<Input value="{localDataModel>projectdef}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' 
+						|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+						(!${localDataModel>/fdrstatus}.startsWith('CH') || ${tileIdentityModel>/role} === 'SUPADM')
+						&amp;&amp; !${localDataModel>/fdrroute}.startsWith('GC') &amp;&amp; ${localDataModel>deletionflag} !== 'X'}"/> <!-- @Task 271621, 319741, 341435 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="6rem" visible="{= ${tileIdentityModel>/role} !== 'CNC'}">
+				<Label text="Project Navigation" wrapping="true"/>
+				<t:template>
+					<Button icon="sap-icon://show-edit"
+						enabled="{= ${localDataModel>/disableaction} !== 'Y' &amp;&amp; ((${localDataModel>/business} === 'UP' &amp;&amp; (${localDataModel>/viewmode} !== 'DISPLAY' || ${localDataModel>/fdrstatus} === 'RELSD') 
+							&amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM' || 
+							(${tileIdentityModel>/role} === 'RNA' &amp;&amp; ${localDataModel>/onlyproject} !== 'N'))) || 
+							(${localDataModel>/business} === 'DS' &amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'SUPADM') 
+							&amp;&amp; (!${localDataModel>projectdef} || ${localDataModel>projectdef} === '') &amp;&amp; !${localDataModel>/fdrroute}.startsWith('GC') 
+							&amp;&amp; ${localDataModel>deletionflag} !== 'X'))}" press="onProjectLineGoToProject"></Button> <!-- @Task 231755, 271621, 319741, 341435, 391850, 406278 -->
+				</t:template>
+			</t:Column>
+			<t:Column width="2rem" visible="false">
+				<Label required="{= ${mandateIndicatorModel>/PRzpsstatus} === 'X'}" text="ZPS Status"/>
+				<t:template>
+					<Input enabled="false" value="{localDataModel>zpsstatus}"/>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/business} === 'UP'}">
+				<Label required="{= ${mandateIndicatorModel>/PRsbdrq} === 'X'}" text="Support Backing Details Required"
+					wrapping="true"/>
+				<t:template>
+					<CheckBox enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; 
+						${localDataModel>/viewmode} !== 'DISPLAY'}" selected="{= ${localDataModel>sbdrq} === 'X'}" select="onCheckBoxChange"> <!-- @Task 341435 -->
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/business} === 'UP'}">
+				<Label required="{= ${mandateIndicatorModel>/PRinrrq} === 'X'}" text="Invoice Review Required"
+					wrapping="true"/>
+				<t:template>
+					<CheckBox enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'}" 
+						selected="{= ${localDataModel>inrrq} === 'X'}" select="onCheckBoxChange"> <!-- @Task 341435 -->
+						<customData>
+							<core:CustomData key="from" value="Item"/>
+						</customData>
+					</CheckBox>
+				</t:template>
+			</t:Column>
+			<t:Column width="10rem" visible="false">
+				<Label required="{= ${mandateIndicatorModel>/PRcleancostflag} === 'X'}" text="Clean Cost Center Flag"
+					wrapping="true"/>
+				<t:template>
+					<Input enabled="false" value="{localDataModel>cleancostflag}"/>
+				</t:template>
+			</t:Column>
+			<!-- @START: Task 274288 -->
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label text="Close" wrapping="true"/>
+				<t:template>
+					<Button tooltip="Click to Close Engagement" icon="sap-icon://sys-cancel-2" press="onCloseEngagement" 
+						enabled="{= ${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+						${localDataModel>engagmentno} !== undefined &amp;&amp; ${localDataModel>engagmentno} !== null &amp;&amp; 
+						${localDataModel>engagmentno} !== '' &amp;&amp; ${localDataModel>deletionflag} !== 'X'}"> <!-- @Task 341435 -->
+						<customData>
+							<core:CustomData key="section" value="provider"/>
+						</customData>
+					</Button>
+				</t:template>
+			</t:Column>
+			<t:Column width="5rem" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+				<Label text="Deletion Indicator" wrapping="true"/>
+				<t:template>
+					<core:Icon src="sap-icon://delete" class="size4" visible="{= ${localDataModel>deletionflag} === 'X'}"/>
+				</t:template>
+			</t:Column>
+			<!-- @END: Task 274288 -->
+		</t:columns>
+	</t:Table>
+</core:FragmentDefinition>

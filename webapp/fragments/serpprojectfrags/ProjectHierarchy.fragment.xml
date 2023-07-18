@@ -1,0 +1,48 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<VBox height="100%">
+		<Tree id="idProjectHierarchy" items="{path: 'projectHierarchyModel>/', parameters: {arrayNames:['nodes'], numberOfExpandedLevels: 3}}" mode="SingleSelectMaster"
+			selectionChange="onSelectHierarchyItem" class="sapUiSizeCompact" updateFinished="onTreeUpdate" noDataText="Add Project" 
+			visible="{= ${localDataModel>/onlyproject} !== 'N'}"> <!-- @Task 390770 -->
+			<CustomTreeItem>
+				<FlexBox alignItems="Center" width="100%">
+					<items>
+						<Text text="{projectHierarchyModel>intialdef}">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Text>
+						<Button press="onAddWBS" icon="sap-icon://add" visible="{projectHierarchyModel>addWBSVisible}" class="sapUiSizeCompact"/>
+						<Button press="onDeleteL3WBS" icon="sap-icon://delete" visible="{projectHierarchyModel>deleteWBSVisible}" class="sapUiSizeCompact"/>
+					</items>
+				</FlexBox>
+				<customData>
+					<core:CustomData  key="level" value="{projectHierarchyModel>Level}"/>
+					<core:CustomData  key="intialdef" value="{projectHierarchyModel>intialdef}"/>
+				</customData>
+			</CustomTreeItem>
+		</Tree>
+		<!-- @START: Task 390770 -->
+		<Tree id="idWBSHierarchy" items="{path: 'projectHierarchyModel>/', parameters: {arrayNames:['nodes'], numberOfExpandedLevels: 3}}" mode="SingleSelectMaster"
+			selectionChange="onSelectHierarchyItem" class="sapUiSizeCompact" updateFinished="onTreeUpdate" noDataText="No Hierarchy available" 
+			visible="{= ${localDataModel>/onlyproject} === 'N'}">
+			<CustomTreeItem>
+				<FlexBox alignItems="Center" width="100%">
+					<items>
+						<Text text="{projectHierarchyModel>intialdef}">
+							<layoutData>
+								<FlexItemData growFactor="1" />
+							</layoutData>
+						</Text>
+					</items>
+				</FlexBox>
+				<customData>
+					<core:CustomData  key="level" value="{projectHierarchyModel>Level}"/>
+					<core:CustomData  key="intialdef" value="{projectHierarchyModel>intialdef}"/>
+				</customData>
+			</CustomTreeItem>
+		</Tree>
+		<!-- @END: Task 390770 -->
+	</VBox>
+</core:FragmentDefinition>

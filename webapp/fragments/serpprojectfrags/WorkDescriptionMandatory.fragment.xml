@@ -1,0 +1,24 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Work Description Mandatory"
+		class="sapUiPopupWithPadding"
+		items="{path: 'serpProjectCreationODataModel>/WorkDescMandatorySet', filters: [
+			{path: 'Name', operator: 'EQ', value1: '/SHELL/ZWDMAND'},
+			{path: 'Language', operator : 'EQ', value1 : 'E'}
+		]}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProjectCreationODataModel>Key}"
+			info=""
+			description="{serpProjectCreationODataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="Key"></core:CustomData>
+			<core:CustomData key="formProp" value="WorkDescriptionMandatory"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

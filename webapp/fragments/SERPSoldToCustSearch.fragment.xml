@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<SelectDialog
+	noDataText="No Customers Found"
+		confirm="onValueHelpConfirmItems"
+		cancel="onHelpCancle"
+		title="Select Sold To Customer"
+		items="{path:'serpCustSearchLocalModel>/results'}"
+		growingThreshold="100"
+		search="valueHelpSearch"
+		>
+		<items>
+			<StandardListItem
+			title="{serpCustSearchLocalModel>Kunnr}"
+			description="{serpCustSearchLocalModel>Name1}"
+			icon="{}"
+			iconDensityAware="false"
+			iconInset="false"
+			type="Active" />
+		</items>
+		<customData>
+			<core:CustomData key="selctionParameter" value="selectedItem"/>
+			<core:CustomData key="selctionBindingContext" value="serpCustSearchLocalModel"/>
+			<core:CustomData key="selctionProperty" value="Kunnr"/>
+			<core:CustomData key="searchField" value="Kunnr"/>
+			<core:CustomData key="searchOperator" value="EQ"/>
+			<core:CustomData key="fragControl" value="_oList"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

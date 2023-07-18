@@ -1,0 +1,22 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Profit Center"
+		class="sapUiPopupWithPadding"
+		items="{path: 'masterDataModel>/ProfitCenterSet'}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{masterDataModel>ProfitCenterID}"
+			info=""
+			description="{masterDataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="ProfitCenterID"></core:CustomData>
+			<core:CustomData key="formProp" value="ProfitCenter"></core:CustomData>
+			<core:CustomData key="selctionProperty" value="profitcenter"></core:CustomData> <!-- @Task 306868 -->
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

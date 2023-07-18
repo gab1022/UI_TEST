@@ -1,0 +1,27 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Dialog title="Select Reason for Rejection">
+		<buttons>
+			<Button text="Confirm" type="Accept" press="onReject"/>
+			<Button text="Cancel" type="Reject" press="onRejectClose"/>
+		</buttons>
+		<content>
+			<List mode="SingleSelectLeft" items="{path: 'fdrPlusFeedOdataModel>/reason', filters: [{
+					path: 'deletionflag', operator : 'NE', value1 : 'X'
+				}]}">
+				<items>
+					<StandardListItem title="{fdrPlusFeedOdataModel>reasondescription}" type="Active"/>
+				</items>
+				<customData>
+					<core:CustomData key="searchField" value="reasondescription"/>
+				</customData>
+			</List>
+			<f:SimpleForm>
+				<f:content>
+					<Label text="Comments"></Label>
+					<TextArea value="{localDataModel>/comment}"></TextArea>
+				</f:content>
+			</f:SimpleForm>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Profit Center"
+		class="sapUiPopupWithPadding"
+		items="{path: 'serpProfitCenterLocalModel>/results'}"
+		search="valueHelpSearch"
+		confirm="onValueHelpConfirmItems"
+		cancel="onHelpCancle" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProfitCenterLocalModel>ProfitCenterID}"
+			info=""
+			description="{serpProfitCenterLocalModel>Description}">
+		</StandardListItem>
+		<customData>
+		<core:CustomData key="selctionParameter" value="selectedItem"/>
+			<core:CustomData key="selctionBindingContext" value="serpProfitCenterLocalModel"/>
+			<core:CustomData key="selctionProperty" value="ProfitCenterID"/>
+			<core:CustomData key="searchField" value="ProfitCenterID"/>
+			<core:CustomData key="searchOperator" value="Contains"/>
+			<core:CustomData key="fragControl" value="_oList"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

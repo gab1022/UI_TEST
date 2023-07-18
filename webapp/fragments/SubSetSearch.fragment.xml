@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<SelectDialog noDataText="No Sub Sets Found" confirm="onSubSetValueConfirm" cancel="onHelpCancle" title="Select Sub Sets"
+		items="{path:'subSetLocalModel>/results'}" growingThreshold="100" search="valueHelpSearch">
+		<items>
+			<StandardListItem title="{subSetLocalModel>cob}" description="" icon="{}" iconDensityAware="false" iconInset="false" type="Active"/>
+		</items>
+		<customData>
+			<core:CustomData key="selctionParameter" value="selectedItem"/>
+			<core:CustomData key="selctionBindingContext" value="subSetLocalModel"/>
+			<core:CustomData key="selctionProperty" value=""/>
+			<core:CustomData key="searchField" value="cob"/>
+			<core:CustomData key="searchCondition" value="Contains"/>
+			<core:CustomData key="searchOperator" value="Contains"/>
+			<core:CustomData key="fragControl" value="_oList"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

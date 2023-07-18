@@ -1,0 +1,52 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table" xmlns:l="sap.ui.layout">
+	<Dialog title="Cost Collector WBSE - {path:'localDataModel>/multiwbsrequiredfor', formatter:'.formatter.displayText'}">
+		<buttons>
+			<Button text="Close" press="onCloseMultiCCWBS"/>
+		</buttons>
+		<Table growing="true" growingScrollToLoad="true" width="60rem" mode="None" items="{ path : 'localDataModel>/costCollectors'}"
+			class="sapUiSizeCompact">
+			<columns>
+				<Column width="5rem">
+					<header>
+						<Label text="Cost Collector #" wrapping="true"/>
+					</header>
+				</Column>
+				<Column width="5rem">
+					<header>
+						<Label text="Description of the WBSE" wrapping="true"/>
+					</header>
+				</Column>
+				<Column width="5rem">
+					<header>
+						<Label text="Restricted Timewriters" tooltip="{localDataModel>/fdrhovertexts/RestrictedTimewriter}"
+							wrapping="true"/>
+					</header>
+				</Column>
+				<Column width="30rem">
+					<header>
+						<Label text="Do you need to make the WBSE available only for certain types of cost booking? If yes, please define which costs can be blocked from being booked into the WBSE"
+							wrapping="true"/>
+					</header>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{localDataModel>costcollector}"/>
+						<Text text="{localDataModel>wbsedesc}"/>
+						<Button icon="sap-icon://private" press="onOpenRestrictedTW">
+							<customData>
+								<core:CustomData key="costCollector" value="{localDataModel>costcollector}"/>
+							</customData>
+						</Button>
+						<MultiInput showValueHelp="false" editable="false" tokens="{localDataModel>wbseblock}">
+							<tokens>
+								<Token key="{localDataModel>blockcode}" text="{localDataModel>blocktext}" editable="false"/>
+							</tokens>
+						</MultiInput>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Dialog>
+</core:FragmentDefinition>

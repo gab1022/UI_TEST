@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog title="Currency" class="sapUiPopupWithPadding" items="{serp110ODataModel>/CurrencySet}"
+		search="valueHelpSearch" confirm="onHeaderSearchConfirm" cancel="onValueHelpCancel" growingThreshold="50">
+		<StandardListItem title="{serp110ODataModel>Waers}" info="" description="{serp110ODataModel>Description}"></StandardListItem>
+		<customData>
+			<core:CustomData key="selctionBindingContext" value="serp110ODataModel"/>
+			<core:CustomData key="searchField" value="Waers"/>
+			<core:CustomData key="searchOperator" value="StartsWith"/>
+			<core:CustomData key="fragControl" value="_oList"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+			<core:CustomData key="fragVariable" value="currencyFrag"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

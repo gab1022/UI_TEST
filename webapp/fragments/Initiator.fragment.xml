@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="Initiator">
+		<buttons>
+			<Button text="Cancel" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="initiatorfrag"/>
+				</customData>
+			</Button>
+		</buttons>
+		<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ADSearch" type="XML"></core:Fragment>
+		<List noDataText="{i18n>noData}" items="{ path: 'initiatorLocalModel>/results'}" itemPress="onListUserSelect">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Select an Initiator" level="H6"></Title>
+				</OverflowToolbar>
+			</headerToolbar>
+			<items>
+				<StandardListItem title="{initiatorLocalModel>initiator}" description="{initiatorLocalModel>initiatorname}" type="Active"/>
+			</items>
+			<customData>
+				<core:CustomData key="selctionBindingContext" value="initiatorLocalModel"/>
+				<core:CustomData key="fragControl" value="_oList"/>
+				<core:CustomData key="fragBindingInfo" value="items"/>
+				<core:CustomData key="fragVariable" value="initiatorfrag"/>
+			</customData>
+		</List>
+		<customData>
+			<core:CustomData key="selctionBindingContext" value="initiatorLocalModel"/>
+			<core:CustomData key="displayFields" value="initiator,initiatorname"/>
+		</customData>
+	</Dialog>
+</core:FragmentDefinition>

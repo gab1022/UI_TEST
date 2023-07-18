@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Dialog title="Budget Details">
+		<buttons>
+			<Button text="{i18n>projectSave}" press="onSaveBudget" />
+			<Button text="{i18n>restrictedtwCancel}" press="onCloseDialog" />
+		</buttons>
+		<content>
+			<Table items="{budgetModel>/}" visible="{visibilityModel>/projectFormVisible}" class="sapUiSizeCompact">
+				<columns>
+					<Column><Text text="Year"></Text></Column>
+					<Column><Text text="Budget ($)"></Text></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Input value="{budgetModel>Year}" enabled="false"></Input>
+							<Input value="{budgetModel>Budget}"></Input>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,37 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<Dialog title="FDR Change Log">
+		<buttons>
+			<Button text="OK" press="onCloseChangeLog">
+			</Button>
+		</buttons>
+		<Table items="{path:'localDataModel>/changelog', sorter: {path: 'dateofoperation', descending: true}}" growing="true" growingScrollToLoad="true" growingThreshold="5">
+			<columns>
+				<Column width="10rem"><Text text="Role Name"></Text></Column>
+				<Column width="10rem"><Text text="Field Name"></Text></Column>
+				<Column width="10rem"><Text text="Action Performed"></Text></Column>
+				<Column width="10rem"><Text text="New Value"></Text></Column>
+				<Column width="10rem"><Text text="Old Value"></Text></Column>
+				<Column width="15rem"><Text text="Performed On"></Text></Column>
+				<Column width="10rem"><Text text="Performed By"></Text></Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{localDataModel>appdesc}"></Text>
+						<Text text="{localDataModel>fielddesc}"></Text>
+						<Text text="{localDataModel>action}"></Text>
+						<Text text="{localDataModel>newvalue}"></Text>
+						<Text text="{localDataModel>oldvalue}"></Text>
+						<Text text="{path: 'localDataModel>dateofoperation',
+					        type: 'sap.ui.model.type.Date',
+					        formatOptions: {
+					          pattern: 'MMM dd, yyyy hh:mm aaa'
+					        }}"></Text>
+						<Text text="{localDataModel>personresponsible}"></Text>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Dialog>
+</core:FragmentDefinition>

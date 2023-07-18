@@ -1,0 +1,32 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="Focal Point Determination">
+		<buttons>
+			<Button text="Cancel" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="FocalPointDetermination"/>
+				</customData>
+			</Button>
+		</buttons>
+		<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ADSearch" type="XML"></core:Fragment>
+		<List noDataText="{i18n>noData}" items="{ path: 'focalPointLocalModel>/results'}" itemPress="onListUserSelect">
+			<headerToolbar>
+				<OverflowToolbar>
+					<Title text="Select a Focal Point" level="H6"></Title>
+				</OverflowToolbar>
+			</headerToolbar>
+			<items>
+				<StandardListItem title="{focalPointLocalModel>focalid}" description="{focalPointLocalModel>focalname}" type="Active"/>
+			</items>
+			<customData>
+				<core:CustomData key="selctionBindingContext" value="focalPointLocalModel"/>
+				<core:CustomData key="fragControl" value="_oList"/>
+				<core:CustomData key="fragBindingInfo" value="items"/>
+				<core:CustomData key="fragVariable" value="FocalPointDetermination"/>
+			</customData>
+		</List>
+		<customData>
+			<core:CustomData key="selctionBindingContext" value="focalPointLocalModel"/>
+			<core:CustomData key="displayFields" value="focalid,focalname"/>
+		</customData>
+	</Dialog>
+</core:FragmentDefinition>

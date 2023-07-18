@@ -1,0 +1,111 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<Dialog title="FDR Actuals History">
+		<buttons>
+			<Button text="OK" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="fdrActualsHistoryFrag"/>
+				</customData>
+			</Button>
+		</buttons>
+		<Panel expandable="false" expanded="true">
+			<content>
+				<HBox class="sapUiSmallMargin">
+					<VBox class="sapUiSmallMarginEnd">
+						<Label text="FDR Number" class="sapUiSmallMarginEnd"></Label>
+						<Input class="sapUiSmallMarginEnd" value="{localDataModel>/fdrno}" enabled="false"></Input>
+					</VBox>
+					<VBox class="sapUiSmallMarginEnd">
+						<Label required="true" text="Year" class="sapUiSmallMarginBegin"></Label>
+						<StepInput width="8rem" value="{localDataModel>/fdrhistoryyear}" min="{fdrHistoryYearModel>/minYear}" max="{fdrHistoryYearModel>/maxYear}" step="1" />
+						<!--<Select selectedKey="{localDataModel>/fdrhistoryyear}" forceSelection="false" items="{fdrHistoryYearModel>/years}">
+							<core:Item key="{fdrHistoryYearModel>year}" text="{fdrHistoryYearModel>year}"/>
+						</Select>-->
+					</VBox>
+					<VBox class="sapUiSmallMarginEnd">
+						<Label required="true" class="sapUiSmallMarginBegin" text="Quarter"></Label>
+						<Select selectedKey="{localDataModel>/fdrhistoryqtr}" forceSelection="false">
+						<items>
+							<core:Item key="Q1" text="Q1"/>
+							<core:Item key="Q2" text="Q2"/>
+							<core:Item key="Q3" text="Q3"/>
+							<core:Item key="Q4" text="Q4"/>
+						</items>
+					</Select>
+					</VBox>
+					<Button class="sapUiSmallMarginTop sapUiSizeCompact" text="Go" press="onGetFDRActualsHistory"></Button>
+				</HBox>
+			</content>
+		</Panel>
+		<t:Table rows="{localDataModel>/fdrhistory}" selectionMode="None" visibleRowCount="10" threshold="100" class="sapUiSmallMarginBeginEnd">
+			<t:extension>
+				<Toolbar width="30%">
+					<Label width="6rem" text="FDR Value:" design="Bold"/>
+					<Input value="{= ${localDataModel>/fdrhistory}.length ? ${localDataModel>/fdrhistory/0/fdrheadervalue} : ''}" enabled="false"></Input>
+				</Toolbar>
+			</t:extension>
+			<t:columns>
+				<t:Column width="8rem">
+					<Label text="Beneficiary Company Code" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>beneficiarycompcode}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="7rem">
+					<Label text="Reference of Business" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>refofbusiness}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="8rem" visible="{= ${localDataModel>/fdrroute} !== 'EBD'}">
+					<Label text="Invoice Company Code" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>invcompcode}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="6rem">
+					<Label text="Beneficiary Percentage" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>actualpercentage}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="8rem">
+					<Label text="Beneficiary Amount" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>actualcalculvalue}"/>
+					</t:template>
+				</t:Column>
+				<!--<t:Column width="10rem" visible = "{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+					<Label text="Recovery Cost Center" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>recoverycc}"/>
+					</t:template>
+				</t:Column>-->
+				<t:Column width="10rem" visible = "{= ${localDataModel>/fdrroute} === 'EBD'}">
+					<Label text="MCS WBSE" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>mcswbse}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="10rem" visible = "{= ${localDataModel>/fdrroute} === 'EBD'}">
+					<Label text="SIPC Recovery WBSE" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>recoverywbse}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="6rem" visible = "{= ${localDataModel>/fdrroute} === 'EBD'}">
+					<Label text="Beneficiary Cost Type" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>costobjtype}"/>
+					</t:template>
+				</t:Column>
+				<t:Column width="8rem" visible = "{= ${localDataModel>/fdrroute} === 'EBD'}">
+					<Label text="Beneficiary Cost Object" wrapping="true"/>
+					<t:template>
+						<Text text="{localDataModel>costobjval}"/>
+					</t:template>
+				</t:Column>
+			</t:columns>
+		</t:Table>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,22 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Dialog title="FDR Obsolete Confirmation">
+		<buttons>
+			<Button text="Yes" type="Accept" press="onConfirmObsolete"/>
+			<Button text="No" type="Reject" press="onCloseWindow">
+				<customData>
+					<core:CustomData key="fragVariable" value="fdrObsoleteFrag"/>
+				</customData>
+			</Button>
+		</buttons>
+		<content>
+			<f:SimpleForm>
+				<f:content>
+					<Text text="Are you sure, do you want to obsolete this FDR? Once obsolete, FDR cannot be edited/reopened again!!"></Text>
+					<Label text="Comments"></Label>
+					<TextArea value="{localDataModel>/comment}"></TextArea>
+				</f:content>
+			</f:SimpleForm>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

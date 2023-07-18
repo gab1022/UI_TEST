@@ -1,0 +1,311 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<!-- @Task 290069 -->
+	<f:Form editable="true">
+		<f:layout>
+			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+				emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+		</f:layout>
+		<f:formContainers>
+			<f:FormContainer title="Contract Details">
+				<f:formElements>
+					<f:FormElement label="Sub Set" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/subset} === 'X'}" width="100%" change="onSubItemChange" showValueHelp="true"
+								value="{localDataModel>/subset}" valueHelpRequest="onHeaderValueHelpSearch" 
+								enabled="{= ${localDataModel>/fdrroute} === 'EBD' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+								&amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 319423, 341209 -->
+								<customData>
+									<core:CustomData key="path" value="subset"/>
+									<core:CustomData key="fragmentName" value="SubSetSearch"/>
+									<core:CustomData key="fragVariable" value="subsetFrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Allocation Key" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/allocationkey} === 'X'}" value="{localDataModel>/allocationkey}" showValueHelp="true"
+								valueHelpRequest="onHeaderValueHelpSearch" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+								<customData>
+									<core:CustomData key="path" value="allocationkey"/>
+									<core:CustomData key="fragmentName" value="AllocationKeySearch"/>
+									<core:CustomData key="fragVariable" value="alloKeyFrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Function" visible="{= ${tileIdentityModel>/role} !== 'PRC'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/funtionid} === 'X'}" value="{localDataModel>/functiondesc}" showValueHelp="true"
+								valueHelpRequest="onFunSerActValueHelpSearch" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"> <!-- @Task 341435 -->
+								<customData>
+									<core:CustomData key="fragmentName" value="FunctionsSearchHelp"/>
+									<core:CustomData key="fragVariable" value="functionFrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Service" visible="{= ${tileIdentityModel>/role} !== 'PRC'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/serviceid} === 'X'}" value="{localDataModel>/service}" showValueHelp="true"
+								valueHelpRequest="onFunSerActValueHelpSearch" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"> <!-- @Task 341435 -->
+								<customData>
+									<core:CustomData key="fragmentName" value="ServiceSearchHelp"/>
+									<core:CustomData key="fragVariable" value="serviceFrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Activity" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/activityid} === 'X'}" value="{localDataModel>/activity}" showValueHelp="true"
+								valueHelpRequest="onFunSerActValueHelpSearch" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+								${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+								<customData>
+									<core:CustomData key="fragmentName" value="ActivitySearchHelp"/>
+									<core:CustomData key="fragVariable" value="activityfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="FDR Validity" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${tileIdentityModel>/role} !== 'PRC'}">
+						<f:fields>
+							<DatePicker id="fdrStartDate" required="{= ${mandateIndicatorModel>/fromdate} === 'X'}" change="onDateChange"
+								dateValue="{path:'localDataModel>/fromdate',formatter:'.formatter.dateFormatter'}"
+								enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'  
+								&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"/> <!-- @Task 319741, 341435 -->
+							<DatePicker id="fdrEndDate" required="{= ${mandateIndicatorModel>/todate} === 'X'}" change="onDateChange" minDate="{contractDatesModel>/toMin}"
+								maxDate="{contractDatesModel>/toMax}" dateValue="{path:'localDataModel>/todate',formatter:'.formatter.dateFormatter'}"
+								enabled="{= ${contractDatesModel>/allowTo} &amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' 
+								|| ${tileIdentityModel>/role} === 'SUPADM') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"/> <!-- @Task 319741, 341435 -->
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement visible="{= (${tileIdentityModel>/role} !== 'CNC' &amp;&amp; 
+						${localDataModel>/business} === 'UP' &amp;&amp; !${localDataModel>/fdrrecovertype}.toUpperCase().startsWith('NON PROJECT'))}">
+						<f:label>
+							<Label text="Do you need a Single Billable WBSE Code?" wrapping="true"></Label>
+						</f:label>
+						<f:fields>
+							<Select enabled="{= ${tileIdentityModel>/role} === 'GSR' &amp;&amp; ${localDataModel>/workflowflag} !== 'X' 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}" selectedKey="{localDataModel>/onlyproject}"> <!-- @Task 341435 -->
+								<core:Item key="Y" text="YES"/>
+								<core:Item key="N" text="NO"/>
+							</Select>
+						</f:fields>
+						<f:fields>
+							<!-- @Task 292448 -->
+							<Button text="IM Parameters" press="onComplexIMRead" 
+								visible="{= (${localDataModel>/business} === 'UP' &amp;&amp; ${localDataModel>/onlyproject} === 'N' &amp;&amp;  
+									((${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') || 
+									(${tileIdentityModel>/role} === 'RNA' &amp;&amp; ${localDataModel>/workflowflag} === 'X')))}" 
+									enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY'}"> <!-- @Task 341435 -->
+							</Button>
+						</f:fields>
+					</f:FormElement>
+					<!-- @START: Task 231446 -->
+					<f:FormElement visible="{= ${localDataModel>/business} === 'UP' &amp;&amp; ${localDataModel>/workflowflag} === 'X' 
+						&amp;&amp; ${localDataModel>/onlyproject} === 'Y' &amp;&amp; ${tileIdentityModel>/role} === 'GSRWF'}">
+						<f:label>
+							<Label text="Cost Collector WBSE" wrapping="true"></Label>
+						</f:label>
+						<f:fields>
+							<Select enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}" 
+								selectedKey="{localDataModel>/multiwbsrequiredfor}"> <!-- @Task 341435 -->
+									<core:Item key="UQTT" text="Unique Code for TW/TX/Other Cost"/>
+									<core:Item key="UQAS" text="Unique Code for Assets"/>
+									<core:Item key="UQEE" text="Unique Code for each Employee"/>
+									<core:Item key="UQTA" text="Unique Code for type of Activities/Works"/>
+							</Select>
+						</f:fields>
+						<f:fields>
+							<Button text="View Details" press="onOpenMultiCCWBS">
+							</Button>
+						</f:fields>
+					</f:FormElement>
+					<!-- @END: Task 231446 -->
+					<!-- @START: Task 271620 -->
+					<f:FormElement visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:label>
+							<Label text="Coverage" required="{= ${mandateIndicatorModel>/coverage} === 'X'}" ></Label>
+						</f:label>
+						<f:fields>
+							<Select forceSelection="false" items="{localDataModel>/coverages}" selectedKey="{localDataModel>/coverage}"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"
+								change="onSelectCoverage"> <!-- @Task 341209 -->
+								<core:Item key="{localDataModel>coverage}" text="{localDataModel>coverage}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:label>
+							<Label text="Region" required="{= ${mandateIndicatorModel>/region} === 'X'}" ></Label>
+						</f:label>
+						<f:fields>
+							<Select forceSelection="false" items="{localDataModel>/regions}" selectedKey="{localDataModel>/region}" change="onSelectRegion"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+								<core:Item key="{localDataModel>regcode}" text="{localDataModel>regcode} - {localDataModel>regiondesc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:label>
+							<Label text="Agreement Type" required="{= ${mandateIndicatorModel>/agreementtype} === 'X'}" ></Label>
+						</f:label>
+						<f:fields>
+							<Select forceSelection="false" items="{gcBoaFeederODataModel>/agreemnttype}" selectedKey="{localDataModel>/agreementtype}"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+								<core:Item key="{gcBoaFeederODataModel>agreementtype}" text="{gcBoaFeederODataModel>agreementtype} - {gcBoaFeederODataModel>agreementdesc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<!-- @END: Task 271620 -->
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Other Details">
+				<f:formElements>
+					<f:FormElement label="Functional Flag" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:fields>
+							<CheckBox selected="{= ${localDataModel>/functionalkey} === 'X'}" select="onCheckBoxChange"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+								<customData>
+									<core:CustomData key="from" value="Header"/>
+								</customData>
+							</CheckBox>
+						</f:fields>
+					</f:FormElement>
+					<!-- @START: Task 290808 -->
+					<f:FormElement label="Regional Flag" visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:fields>
+							<HBox>
+								<CheckBox selected="{= ${localDataModel>/regionalflag} === 'X'}" select="onCheckBoxChange"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+									<customData>
+										<core:CustomData key="from" value="Header"/>
+									</customData>
+								</CheckBox>
+								<Input visible="{= ${localDataModel>/regionalflag} === 'X'}" value="{localDataModel>/regionalcode}" placeholder="Regional Code"
+									enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"
+									showValueHelp="true" valueHelpRequest="onHeaderValueHelpSearch" valueHelpOnly="true"> <!-- @Task 341209 -->
+									<customData>
+										<core:CustomData key="fragmentName" value="RegionalCode"/>
+										<core:CustomData key="fragVariable" value="regionalCodeFrag"/>
+										<core:CustomData key="path" value="regionalcode"/>
+									</customData>
+								</Input>
+							</HBox>
+						</f:fields>
+					</f:FormElement>
+					<!-- @END: Task 290808 -->
+					<f:FormElement label="Initiator" visible="{= ${tileIdentityModel>/role} !== 'PRC'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/createdby} === 'X'}" value="{localDataModel>/initiator} - {localDataModel>/initiatorname}"
+								showValueHelp="true" valueHelpRequest="onHeaderValueHelpSearch" valueHelpOnly="true"
+								enabled="{= ((${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN') || ((${tileIdentityModel>/role} === 'ADMIN' &amp;&amp; 
+									(${localDataModel>/viewmode} !== 'DISPLAY' || ${localDataModel>/fdrstatus} === 'RELSD')) || 
+									(${tileIdentityModel>/role} === 'SUPADM' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'))}"> <!-- @Task 319741, 341209, 341435, 349970 -->
+								<customData>
+									<core:CustomData key="path" value="initiator"/>
+									<core:CustomData key="fieldsToSet" value="/initiator,/initiatorname"/>
+									<core:CustomData key="fragmentName" value="Initiator"/>
+									<core:CustomData key="fragVariable" value="initiatorfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="GSR Focal" visible="{= ${tileIdentityModel>/role} !== 'PRC'}">
+						<f:fields>
+							<Input required="{= ${tileIdentityModel>/role} === 'GSRWF' &amp;&amp; ${localDataModel>/business} === 'UP' &amp;&amp; ${localDataModel>/workflowflag} === 'X'}" 
+								value="{localDataModel>/gsrfocal} - {localDataModel>/gsrfocalname}" showValueHelp="true" valueHelpRequest="onHeaderValueHelpSearch" 
+								valueHelpOnly="true"
+								enabled="{= ((${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+									&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN') || ((${tileIdentityModel>/role} === 'ADMIN' &amp;&amp; 
+									(${localDataModel>/viewmode} !== 'DISPLAY' || ${localDataModel>/fdrstatus} === 'RELSD')) || 
+									(${tileIdentityModel>/role} === 'SUPADM' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'))}"> <!-- @Task 319741, 341435, 349970 -->
+								<customData>
+									<core:CustomData key="path" value="gsrfocal"/>
+									<core:CustomData key="fieldsToSet" value="/gsrfocal,/gsrfocalname"/>
+									<core:CustomData key="fragmentName" value="FocalPointDetermination"/>
+									<core:CustomData key="fragVariable" value="gsrfocalfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="R&amp;A Focal" visible="{= ${tileIdentityModel>/role} !== 'PRC'}">
+						<f:fields>
+							<Input required="{= ${tileIdentityModel>/role} === 'GSRWF' &amp;&amp; ${localDataModel>/business} === 'UP' &amp;&amp; ${localDataModel>/workflowflag} === 'X'}" 
+								value="{localDataModel>/rnafocal} - {localDataModel>/rnafocalname}" showValueHelp="true" valueHelpRequest="onHeaderValueHelpSearch" 
+								valueHelpOnly="true"
+								enabled="{= ((${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN') || ((${tileIdentityModel>/role} === 'ADMIN' &amp;&amp; 
+									(${localDataModel>/viewmode} !== 'DISPLAY' || ${localDataModel>/fdrstatus} === 'RELSD')) || 
+									(${tileIdentityModel>/role} === 'SUPADM' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'))}"> <!-- @Task 319741, 349970 -->
+								<customData>
+									<core:CustomData key="path" value="rnafocal"/>
+									<core:CustomData key="fieldsToSet" value="/rnafocal,/rnafocalname"/>
+									<core:CustomData key="fragmentName" value="FocalPointDetermination"/>
+									<core:CustomData key="fragVariable" value="rnafocalfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Funding Manager">
+						<f:fields>
+							<!-- @Bug 310345 -->
+							<Input required="{= (${localDataModel>/fdrroute} === 'DIR' || ${localDataModel>/fdrroute} === 'EBD') &amp;&amp; ${mandateIndicatorModel>/fundingmanager} === 'X'}" 
+								value="{localDataModel>/fundingmanager} - {localDataModel>/fundingmanagername}" showValueHelp="true" valueHelpOnly="true" 
+								valueHelpRequest="onHeaderValueHelpSearch" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+								${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"> <!-- @Task 341435 -->
+								<customData>
+									<core:CustomData key="path" value="fundingmanager"/>
+									<core:CustomData key="fieldsToSet" value="/fundingmanager,/fundingmanagername"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/fdrroute} === 'DIR'}">
+						<f:label>
+							<Label text="Recovery Type" required="{= ${tileIdentityModel>/role} === 'GSRWF' &amp;&amp; ${mandateIndicatorModel>/fdrrecovertype} === 'X'}"></Label>
+						</f:label>
+						<f:fields>
+							<Select enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; (!${localDataModel>/fdrstatus}.startsWith('CH') || ${tileIdentityModel>/role} === 'SUPADM')}" forceSelection="false"
+								items="{ path: 'fdrPlusFeedOdataModel>/recoverytype', filters:[{path:'deletionflag',operator: 'NE', value1:'X'}]}"
+								selectedKey="{localDataModel>/fdrrecovertype}" change="onRecoveryTypeInHeadChange"> <!-- @Task 319741, 341435 -->
+								<core:Item key="{fdrPlusFeedOdataModel>fdrrecovertype}" text="{fdrPlusFeedOdataModel>fdrrecovertype}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<!-- @START: Task 217083 -->
+					<f:FormElement label="Reason for Rejection" visible="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+						&amp;&amp; ${localDataModel>/fdrstatus} === 'RNREJ'}">
+						<f:fields>
+							<TextArea enabled="false" value="{localDataModel>/rejectionreason}"></TextArea>
+						</f:fields>
+					</f:FormElement>
+					<!-- @END: Task 217083 -->
+					<f:FormElement label="Comments" visible="{= ${localDataModel>/business} === 'UP'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/comment} === 'X'}" value="{localDataModel>/comment}"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY'}"></Input> <!-- @Task 341209 -->
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+		</f:formContainers>
+	</f:Form>
+</core:FragmentDefinition>

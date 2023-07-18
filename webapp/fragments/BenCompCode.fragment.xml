@@ -1,0 +1,71 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Dialog title="Select Beneficiary Company Code">
+		<subHeader>
+			<Toolbar>
+				<SearchField search="onMultiPropSearch"> <!-- @Task 341121 -->
+					<customData>
+						<core:CustomData key="searchField" value="Erpcc,Cname,Grpcc,Aofop"/> <!-- @Task 341121 -->
+						<core:CustomData key="modelName" value="oBenCompCodeModel"/> <!-- @Task 341121 -->
+					</customData>
+				</SearchField>
+			</Toolbar>
+		</subHeader>
+		<content>
+			<Table growing="true" growingScrollToLoad="true" width="50rem" mode="MultiSelect"
+				items="{ path : 'oBenCompCodeModel>/results', sorter : { path : 'Erpcc', descending : false } }">
+				<columns>
+					<Column width="8rem">
+						<header>
+							<Text text="{i18n>compCode}"/>
+						</header>
+					</Column>
+					<Column width="12rem">
+						<header>
+							<Text text="{i18n>compName}"/>
+						</header>
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true">
+						<header>
+							<Text text="{i18n>aoo}"/>
+						</header>
+					</Column>
+					<!-- @START: Task 245235 -->
+					<Column minScreenWidth="Tablet" demandPopin="true"  width="10rem">
+						<header>
+							<Text text="AOO Description"/>
+						</header>
+					</Column>
+					<!-- @END: Task 245235 -->
+					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+						<header>
+							<Text text="{i18n>grpCompCode}"/>
+						</header>
+					</Column>
+					<Column minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+						<header>
+							<Text text="{i18n>sys}"/>
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem>
+					<cells>
+						<Text text="{oBenCompCodeModel>Erpcc}"/>
+						<Text text="{oBenCompCodeModel>Cname}"/>
+						<Text text="{oBenCompCodeModel>Aofop}"/>
+						<Text text="{oBenCompCodeModel>Aotxt}"/> <!-- @Task 245235 -->
+						<Text text="{oBenCompCodeModel>Grpcc}"/>
+						<Text text="{oBenCompCodeModel>Sysid}"/>
+					</cells>
+				</ColumnListItem>
+			</Table>
+		</content>
+		<customData>
+			<core:CustomData key="modelName" value="oBenCompCodeModel"/>
+		</customData>
+		<buttons>
+			<Button visible="{= ${localDataModel>/business} !== 'UP'}" icon="sap-icon://add" text="{i18n>selFromAlloSet}" press="onSelectFromAllocationSet"/>
+			<Button text="Confirm Selection" type="Accept" press="onBenCompCodeSelectionConfirm"/>
+			<Button text="Cancel" type="Reject" press="onBenFragClose"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

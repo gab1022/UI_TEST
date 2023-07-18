@@ -1,0 +1,90 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+	<Dialog title="RC Coding for Complex Project (Refer Attachments for Template)">
+		<content>
+			<Table growing="true" growingScrollToLoad="true" width="60rem" mode="{= (${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')) ? 'Delete' : 'None'}" 
+				items="{ 
+				path : 'localDataModel>/rccoding',
+				filters:[{path:'deletionflag', operator:'NE', value1:'X'}]}"
+				delete="onDeleteRowRCCodeComplex"> <!-- @Task 341435 -->
+				<headerToolbar>
+					<OverflowToolbar>
+						<content>
+							<ToolbarSpacer></ToolbarSpacer>
+							<Button icon="sap-icon://add" press="onAddRowRCCodeComplex" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"> <!-- @Task 341435 -->
+							</Button>
+						</content>
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column width="2rem" visible="false">
+						<header>
+							<Text text="Item No"/>
+						</header>
+					</Column>
+					<Column width="8rem" visible="false">
+						<header>
+							<Text text="Service Type"/>
+						</header>
+					</Column>
+					<Column width="10em">
+						<header>
+							<Label text="GL Account" required="true"/>
+						</header>
+					</Column>
+					<Column width="10rem">
+						<header>
+							<Label text="Provider WBS" required="true"/>
+						</header>
+					</Column>
+					<Column width="14rem">
+						<header>
+							<Label text="Cost Object Type" required="true"/>
+						</header>
+					</Column>
+					<Column width="12rem">
+						<header>
+							<Label text="Cost Object Value" required="true"/>
+						</header>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Input value="{localDataModel>itemno}" enabled="false"></Input>
+							<Select forceSelection="false" enabled="false" items="{fdrPlusFeedOdataModel>/codebyservicetype}" selectedKey="{localDataModel>servicetype}">
+								<items>
+									<core:Item key="{fdrPlusFeedOdataModel>servicecode}" text="{fdrPlusFeedOdataModel>servicecodedesc}({fdrPlusFeedOdataModel>servicecode})"/>
+								</items>
+							</Select>
+							<Input value="{localDataModel>glaccount}" enabled="{= ${localDataModel>/rcCodeComplex/glaccenabled} &amp;&amp; ${localDataModel>costobjtyp} !== 'PO' &amp;&amp; 
+								${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"></Input> <!-- @Task 341435 -->
+							<Input value="{localDataModel>providerwbs}" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; 
+								!${localDataModel>/fdrstatus}.startsWith('CH')}"/> <!-- @Task 341435 -->
+							<HBox>
+								<Select enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+									${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}" selectedKey="{localDataModel>costobjtyp}" 
+									items="{rcCodIndicatorModel>/costObjects}" change="onLineItemSelectChange"> <!-- @Task 341435 -->
+									<items>
+										<core:Item key="{rcCodIndicatorModel>key}" text="{rcCodIndicatorModel>desc}"/>
+									</items>
+								</Select>
+							</HBox>
+							<Input value="{localDataModel>costobj}" valueHelpRequest="onBenCostObjRequest" showValueHelp="{= ${localDataModel>costobjtyp} === 'CC' || ${localDataModel>costobjtyp} === 'WBS'}"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+								${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR'}"> <!-- @Task 341435 -->
+								<customData>
+									<core:CustomData key="costTypeField" value="costobjtyp"/>
+								</customData>
+							</Input>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<buttons>
+			<Button text="Save" type="Accept" press="onComplexRCCodeSave" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY'}"/> <!-- @Task 341435 -->
+			<Button text="Cancel" type="Reject" press="onComplexRCCodeCancel"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

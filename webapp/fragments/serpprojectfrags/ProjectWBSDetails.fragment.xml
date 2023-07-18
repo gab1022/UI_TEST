@@ -1,0 +1,263 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" emptySpanXL="0" emptySpanL="0"
+		emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2" class="editableForm sapUiSizeCompact sapUiNoContentPadding sapUiNoMargin">
+		<core:Title text="" level="H6"/>
+		<!-- @Task 290069 -->
+		<Label text="Project Definition" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<Input value="{formModel>/Definition}" maxLength="24" enabled="false" visible="{visibilityModel>/projectFormVisible}"></Input>
+		<Label text="Level Definition" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input value="{formModel>/WBS}" maxLength="24" enabled="false" visible="{visibilityModel>/levelFormVisible}"></Input>
+		<Label text="Planning Element" visible="{visibilityModel>/level1FormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/PlanningElement}" visible="{visibilityModel>/level1FormVisible}" 
+		enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'
+			&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"></CheckBox>
+		<Label text="Start Date" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<DatePicker enabled="false" visible="{visibilityModel>/projectFormVisible}"
+			dateValue="{ path: 'formModel>/StartDate', formatter: '.formatter.dateFormatter' }"/>
+		<Label text="End Date" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<DatePicker enabled="false" visible="{visibilityModel>/projectFormVisible}"
+			dateValue="{ path: 'formModel>/EndDate', formatter: '.formatter.dateFormatter' }"/>
+		<Label text="Person Responsible" required="true" visible="{visibilityModel>/projectFormVisible}"  wrapping="true"></Label>
+		<Input fieldGroupIds="mandatoryProject" value="{formModel>/PersonResponsible}" maxLength="24" enabled="{= ${localDataModel>/workflowflag} !== 'X' &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'}" 
+			visible="{visibilityModel>/projectFormVisible}" showValueHelp="true" valueHelpRequest="onValueHelpOpen">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="PersonResponsible"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Applicant No." required="true" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryProject" value="{formModel>/Applicant}" visible="{visibilityModel>/projectFormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' ||
+			${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CSCSR' 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="ApplicantNo"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Project Profile" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<Input value="{formModel>/Profile}" maxLength="10" enabled="false"  visible="{visibilityModel>/projectFormVisible}"></Input>
+		<Label text="Project Type" required="true" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryLevel" value="{formModel>/ProjectType}" visible="{visibilityModel>/levelFormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || 
+			${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'RNA') &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="ProjectType"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Company Code" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input value="{formModel>/Company}" maxLength="8" enabled="false" visible="{visibilityModel>/levelFormVisible}"></Input>
+		<Label text="Priority" required="true" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryLevel" value="{formModel>/Priority}" visible="{visibilityModel>/levelFormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || 
+			${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'RNA') &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="Priority"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Finance Rep" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input value="{formModel>/FinanceRep}" visible="{visibilityModel>/levelFormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' 
+			|| ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="FinanceRep"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Project ID" visible="{visibilityModel>/level2FormVisible}"></Label>
+		<Input value="{formModel>/ProjectID}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}" visible="{visibilityModel>/level2FormVisible}"></Input>
+		<Label text="Project ID" visible="{visibilityModel>/level3FormVisible}"></Label>
+		<Input value="{formModel>/ProjectID}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}" visible="{visibilityModel>/level3FormVisible}"></Input>
+		<Label text="Country of Customer" visible="{visibilityModel>/levelFormVisible}" wrapping="true"></Label>
+		<Input value="{formModel>/CountryofCustomer}" visible="{visibilityModel>/levelFormVisible}" enabled="false"></Input>
+		<Label text="Approval Year" required="{invMandatoryModel>/required}" visible="{visibilityModel>/level2FormVisible}"></Label>
+		<Input fieldGroupIds="{invMandatoryModel>/fieldGroupIds}" value="{formModel>/ApprovalYear}" maxLength="4" visible="{visibilityModel>/level2FormVisible}" 
+			liveChange="onYearChange" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD'}"></Input>
+		<Label text="Investment Program ID" required="{invMandatoryModel>/required}" visible="{visibilityModel>/level2FormVisible}" wrapping="true"></Label>
+		<Input fieldGroupIds="{invMandatoryModel>/fieldGroupIds}" value="{formModel>/InvProgram}" visible="{visibilityModel>/level2FormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" change="onInvProgramChange" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="InvestmentProgramID"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Investment Position ID" required="{invMandatoryModel>/required}" visible="{visibilityModel>/level2FormVisible}" wrapping="true"></Label>
+		<Input fieldGroupIds="{invMandatoryModel>/fieldGroupIds}" value="{formModel>/InvProgramPosition}" visible="{visibilityModel>/level2FormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="InvestmentPositionID"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Block Travel Expenses" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/BlockTravelExpense}" visible="{visibilityModel>/level3FormVisible}" 
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"></CheckBox>
+		<Label text="Block PO/PR" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/BlockPOPR}" visible="{visibilityModel>/level3FormVisible}" 
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"></CheckBox>
+		<Label text="Block Timewriting" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/BlockTimeWriting}" visible="{visibilityModel>/level3FormVisible}" 
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"></CheckBox>
+		<Label text="Block FI Postings" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/BlockFIPosting}" visible="{visibilityModel>/level3FormVisible}" 
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"></CheckBox>
+		
+		<!-- Second group -->
+		<core:Title text="" level="H6"/>
+		<Label text="Description" required="true" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryProject" value="{formModel>/Description}"
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'RNA') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'}" visible="{visibilityModel>/projectFormVisible}"></Input>
+		<Label text="Level Name" required="true" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryLevel" value="{formModel>/Description}"
+			enabled="{= (${tileIdentityModel>/role} === 'GSR'  || ${tileIdentityModel>/role} === 'GSRWF'|| ${tileIdentityModel>/role} === 'RNA') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'}" visible="{visibilityModel>/levelFormVisible}"></Input>
+		<Label text="Responsible Cost Center" required="true" wrapping="true" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryLevel" value="{formModel>/CostCenter}" visible="{visibilityModel>/levelFormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR'  || ${tileIdentityModel>/role} === 'GSRWF'|| ${tileIdentityModel>/role} === 'RNA') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="ResponsibleCostCenter"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Plant" required="true" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<Select	fieldGroupIds="mandatoryProject" items="{masterDataModel>/plant}" forceSelection="false" 
+			selectedKey="{formModel>/Plant}" visible="{visibilityModel>/projectFormVisible}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}">
+			<core:Item key="{masterDataModel>plant}" text="{masterDataModel>plant}"/>
+		</Select>
+		<Label text="Profit Center" required="true" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<Input fieldGroupIds="mandatoryProject" value="{formModel>/ProfitCenter}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen"
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; 
+			!${localDataModel>/fdrstatus}.startsWith('CH')}" visible="{visibilityModel>/projectFormVisible}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="ProfitCenter"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Profit Center" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input value="{formModel>/ProfitCenter}" enabled="false" visible="{visibilityModel>/levelFormVisible}"></Input>
+		<Label text="Functional Area" required="true"  visible="{visibilityModel>/projectFormVisible}"  wrapping="true"></Label>
+		<Input fieldGroupIds="mandatoryProject" value="{formModel>/FunctionalArea}" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen"
+			enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; 
+			!${localDataModel>/fdrstatus}.startsWith('CH')}" visible="{visibilityModel>/projectFormVisible}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="FunctionalArea"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Functional Area" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input value="{formModel>/FunctionalArea}" enabled="false" visible="{visibilityModel>/levelFormVisible}"></Input>
+		<Label text="Partner Sold-To"></Label>
+		<Input value="{formModel>/Partner}" enabled="false"></Input>
+		<Input value="{formModel>/PartnerName}" enabled="false"></Input> <!-- @Task 271588 -->
+		<Label text="Long Text" visible="{visibilityModel>/projectFormVisible}"></Label>
+		<TextArea value="{formModel>/LongText}" maxLength="5000" visible="{visibilityModel>/projectFormVisible}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"></TextArea>
+		<Label text="Business Review Required" visible="{visibilityModel>/levelFormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/BusinessReviewRequired}" visible="{visibilityModel>/levelFormVisible}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"></CheckBox>
+		<Label text="Billing Method" visible="{visibilityModel>/levelFormVisible}"></Label>
+		<Input value="{formModel>/BillingMethod}" fieldWidth="20%" description="{formModel>/BillingMethodDesc}" enabled="false" visible="{visibilityModel>/levelFormVisible}"></Input>
+		<Label text="Work Description Mandatory" required="true" visible="{visibilityModel>/levelFormVisible}" wrapping="true"></Label>
+		<Input fieldGroupIds="mandatoryLevel" value="{formModel>/WorkDescriptionMandatory}" visible="{visibilityModel>/levelFormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="WorkDescriptionMandatory"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Billing Element" visible="{visibilityModel>/level2FormVisible}"></Label>
+		<CheckBox selected="{formModel>/BillingElement}" enabled="false" visible="{visibilityModel>/level2FormVisible}"></CheckBox>
+		<Label text="WBS Cost Category" visible="{visibilityModel>/level2FormVisible}" wrapping="true"></Label>
+		<Input value="{formModel>/CostCategory}" visible="{visibilityModel>/level2FormVisible}" 
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="WBSCostCategory"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="WBS Cost Category" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<Input value="{formModel>/CostCategory}" visible="{visibilityModel>/level3FormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="WBSCostCategory"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="WBS ORP Category" visible="{visibilityModel>/level2FormVisible}" wrapping="true"></Label>
+		<Input value="{formModel>/ORPCategory}" visible="{visibilityModel>/level2FormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+			${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="WBSORPCategory"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="WBS ORP Category" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<Input value="{formModel>/ORPCategory}" visible="{visibilityModel>/level3FormVisible}"
+			showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onValueHelpOpen" enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') 
+			&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}">
+			<customData>
+				<core:CustomData key="valHelpFragment" value="WBSORPCategory"></core:CustomData>
+			</customData>
+		</Input>
+		<Label text="Account Assignment" visible="{visibilityModel>/level3FormVisible}" wrapping="true"></Label>
+		<CheckBox selected="{formModel>/AccountAssignment}" enabled="false" visible="{visibilityModel>/level3FormVisible}"></CheckBox>
+	</f:SimpleForm>
+	
+	<!-- Restricted Timewriters table -->
+	<Table items="{formModel>/timewriters}" visible="{visibilityModel>/level3FormVisible}" mode="{= (${formEnabledModel>/formEnabled} &amp;&amp; 
+		${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' 
+		&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' 
+		&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN') ? 'Delete' : 'None'}" delete="onRemoveTimewriters">
+		<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="Restricted Timewriters" level="H4"></Title>
+					<ToolbarSpacer></ToolbarSpacer>
+					<Button icon="sap-icon://add" tooltip="Add Timewriter" press="onValueHelpOpen" enabled="{= ${formEnabledModel>/formEnabled} 
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' &amp;&amp; 
+						${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA'
+						&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}">
+						<customData>
+							<core:CustomData key="valHelpFragment" value="RestrictedTimewriters"></core:CustomData>
+						</customData>
+					</Button>
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns>
+			<Column><Text text="Personnel Number"></Text></Column>
+			<Column><Text text="User ID"></Text></Column>
+			<Column><Text text="Full Name"></Text></Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<Text text="{formModel>PersonNo}"></Text>
+					<Text text="{formModel>UserID}"></Text>
+					<Text text="{formModel>FirstName} {formModel>LastName}"></Text>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</core:FragmentDefinition>

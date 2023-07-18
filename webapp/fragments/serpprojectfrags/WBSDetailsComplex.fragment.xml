@@ -1,0 +1,116 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form">
+	<f:Form editable="true" class="noTopPaddingLabel">
+		<f:layout>
+			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="2" emptySpanL="2"
+				emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="true"/>
+		</f:layout>
+		<f:FormContainer>
+			<f:formElements>
+				<f:FormElement>
+					<f:label>
+						<Label text="Description"/>
+					</f:label>
+					<f:fields>
+						<Input value="{formModel>/Description}" enabled="false"></Input>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Billable"/>
+					</f:label>
+					<f:fields>
+						<CheckBox selected="{= ${formModel>/BillingElement} === 'X'}" enabled="false"></CheckBox>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Cost Collector"/>
+					</f:label>
+					<f:fields>
+						<CheckBox selected="{= ${formModel>/AccountAssignment} === 'X'}" enabled="false"></CheckBox>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Person Responsible"/>
+					</f:label>
+					<f:fields>
+						<Input value="{formModel>/PersonResponsible}" enabled="false"></Input>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Responsible Cost Center"/>
+					</f:label>
+					<f:fields>
+						<Input value="{formModel>/CostCenter}" enabled="false"></Input>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+		<f:FormContainer visible="{= ${formModel>/AccountAssignment} === 'X'}">
+			<f:formElements>
+				<f:FormElement>
+					<f:label>
+						<Label text="Block Travel Expenses" wrapping="true"/>
+					</f:label>
+					<f:fields>
+						<CheckBox selected="{formModel>/BlockTravelExpense}" enabled="false"></CheckBox>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Block PO/PR" wrapping="true"/>
+					</f:label>
+					<f:fields>
+						<CheckBox selected="{formModel>/BlockPOPR}" enabled="false"></CheckBox>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Block Timewriting" wrapping="true"/>
+					</f:label>
+					<f:fields>
+						<CheckBox selected="{formModel>/BlockTimeWriting}" enabled="false"></CheckBox>
+					</f:fields>
+				</f:FormElement>
+				<f:FormElement>
+					<f:label>
+						<Label text="Block FI Postings" wrapping="true"/>
+					</f:label>
+					<f:fields>
+						<CheckBox selected="{formModel>/BlockFIPosting}" enabled="false"></CheckBox>
+					</f:fields>
+				</f:FormElement>
+			</f:formElements>
+		</f:FormContainer>
+	</f:Form>
+	
+	<!-- Restricted Timewriters table -->
+	<Table items="{formModel>/timewriter}" visible="{= ${formModel>/AccountAssignment} === 'X'}">
+		<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="Restricted Timewriters" level="H4"></Title>
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
+		<columns>
+			<Column><Text text="Personnel Number"></Text></Column>
+			<Column><Text text="User ID"></Text></Column>
+			<Column><Text text="Full Name"></Text></Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<Text text="{formModel>PersonNo}"></Text>
+					<Text text="{formModel>UserID}"></Text>
+					<Text text="{formModel>FullName}"></Text>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</core:FragmentDefinition>

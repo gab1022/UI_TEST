@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Functional Area"
+		class="sapUiPopupWithPadding"
+		items="{masterDataModel>/functionalAreaSet}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{masterDataModel>FunctionalArea}"
+			info=""
+			description="{masterDataModel>Description}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="FunctionalArea"></core:CustomData>
+			<core:CustomData key="formProp" value="FunctionalArea"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

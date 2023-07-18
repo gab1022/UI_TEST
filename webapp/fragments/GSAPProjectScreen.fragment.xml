@@ -1,0 +1,221 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table" xmlns:f="sap.ui.layout.form">
+	<Dialog title="GSAP Project Creation" busy="{busyModel>/flag}">
+		<subHeader>
+			<Toolbar></Toolbar>
+		</subHeader>
+		<content>
+			<Wizard busy="{busyModel>/flag}" width="70rem" finishButtonText="Review and Submit" complete="onGSAPProjectSubmit">
+				<WizardStep id="projectDetails" nextStep="wbsLevelDetails" title="Project Details" icon="">
+					<MessageStrip class="sapUiSmallMarginBottom" text="Please add project details to proceed to the next step of WBS level 1 creation"
+						showIcon="true"/>
+					<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="1" labelSpanL="5" labelSpanM="4" emptySpanXL="0" emptySpanL="0"
+						emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2" class="editableForm">
+						<core:Title text="" level="H3"/>
+						<Label text="Project Definition"></Label>
+						<Input value="{gsapProjectLocalModel>/ProjectDefinition}" maxLength="24" enabled="false"></Input>
+						<Label text="Project Profile" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/ProjectProfile}" maxLength="7"></Input>
+						<Label text="CO Area" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/ControllingArea}" maxLength="4"></Input>
+						<Label text="Company Code" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/CompanyCode}" maxLength="4" valueHelpOnly="true" showValueHelp="true"
+							valueHelpRequest=".gsapProjectSectionEvent.onCompnayCodeSearch"></Input>
+						<Label text="Plant" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/Plant}" maxLength="4" enabled="false"></Input>
+						<Label text="Profit center" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/ProfitCtr}" maxLength="10"></Input>
+						<core:Title text="" level="H3"/>
+						<Label text="Description" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/Description}" maxLength="40"></Input>
+						<Label text="Project Currency" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/ProjectCurrency}" maxLength="5"></Input>
+						<Label text="Person Responsible" required="true"></Label>
+						<Input value="{gsapProjectLocalModel>/ResponsibleNo}" maxLength="8"></Input>
+						<Label text="Start Date" required="true"></Label>
+						<DatePicker change=".gsapProjectSectionEvent.onGSAPProjectDateChange"
+							dateValue="{ path: 'gsapProjectLocalModel>/Start', formatter: '.formatter.dateFormatter' }"/>
+						<Label text="End Date"></Label>
+						<DatePicker change=".gsapProjectSectionEvent.onGSAPProjectDateChange"
+							dateValue="{ path: 'gsapProjectLocalModel>/Finish', formatter: '.formatter.dateFormatter' }"/>
+						<Label text="Tax Jur."/>
+						<Input value="{gsapProjectLocalModel>/Taxjurcode}" maxLength="15"/>
+						<Label text="Business"/>
+						<RadioButtonGroup selectedIndex="{gsapProjectLocalModel>/Business}" valueState="Warning">
+							<buttons>
+								<RadioButton text="Non-DS IT Projects"/>
+								<RadioButton text="DS IT Projects"/>
+							</buttons>
+						</RadioButtonGroup>
+					</f:SimpleForm>
+				</WizardStep>
+				<WizardStep id="wbsLevelDetails" title="WBS Creation" icon="">
+					<Toolbar>
+						<ToolbarSpacer></ToolbarSpacer>
+						<Button icon="sap-icon://add" tooltip="Add level 1 wbs element" press=".gsapProjectSectionEvent.addWBSLevel1Details"/>
+						<Button icon="sap-icon://delete" tooltip="Delete Selected level 1 wbs element" press=".gsapProjectSectionEvent.deleteWBSLevel1Details"/>
+					</Toolbar>
+					<MessageStrip class="sapUiSmallMarginBottom" text="Please add WBS details" showIcon="true"/>
+					<List mode="SingleSelectLeft" items="{gsapProjectLocalModel>/results}" id="idWBSList">
+						<items>
+							<CustomListItem>
+								<content>
+									<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="1" labelSpanL="5" labelSpanM="4" emptySpanXL="0" emptySpanL="0"
+										emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2" class="editableForm">
+										<core:Title text="" level="H3"/>
+										<Label text="WBS Element"></Label>
+										<Input value="{gsapProjectLocalModel>WbsElement}" enabled="false"></Input>
+										<Label text="Description" required="true"></Label>
+										<Input value="{gsapProjectLocalModel>Description}" maxLength="40"></Input>
+										<Label text="Responsible Cost Center" required="true"></Label>
+										<Input value="{gsapProjectLocalModel>RespsblCctr}" maxLength="10" showValueHelp="true" valueHelpRequest=".gsapProjectSectionEvent.onResponsibleCostCenterSearch"></Input>
+										<Label text="Investment Reason"></Label>
+										<Input value="{gsapProjectLocalModel>InvReason}" maxLength="2"></Input>
+										<core:Title text="" level="H3"/>
+										<Label text="Account Assignment" required="true"></Label>
+										<CheckBox selected="{= ${gsapProjectLocalModel>WbsAccountAssignmentElement} === 'X'}" select=".gsapProjectSectionEvent.onCheckBoxSelectWBS"/>
+										<Label text="WBS Billing Element" required="true"></Label>
+										<CheckBox selected="{= ${gsapProjectLocalModel>WbsBillingElement} === 'X'}" select=".gsapProjectSectionEvent.onCheckBoxSelectWBS"/>
+										<Label text="User Key Field"></Label>
+										<Input value="{gsapProjectLocalModel>UserFieldKey}" maxLength="7"></Input>
+										<Label text="User key field Key 2"></Label>
+										<Input value="{gsapProjectLocalModel>UserFieldChar202}" maxLength="20"></Input>
+									</f:SimpleForm>
+									<t:Table visibleRowCount="2" fixedRowCount="0" rows="{gsapProjectLocalModel>settlementRule}" selectionMode="Single">
+										<t:toolbar>
+											<Toolbar>
+												<content>
+													<Title text="Settlement Rule"/>
+													<ToolbarSpacer/>
+													<Button icon="sap-icon://sys-add" tooltip="Add Settlement Rule Item" press=".gsapProjectSectionEvent.onSettlementAdd"/>
+												</content>
+											</Toolbar>
+										</t:toolbar>
+										<t:columns>
+											<t:Column width="8rem">
+												<Label text="CAT"></Label>
+												<t:template>
+													<Select selectedKey="{gsapProjectLocalModel>AccntAssCat}" enabled="false">
+														<items>
+															<core:Item key="CTR" text="CTR"/>
+															<core:Item key="WBS" text="WBS"/>
+														</items>
+													</Select>
+												</t:template>
+											</t:Column>
+											<t:Column>
+												<Label text="Settlement Receiver"></Label>
+												<t:template>
+													<Input value="{gsapProjectLocalModel>SettlementRecevier}" maxLength="{= ${gsapProjectLocalModel>AccntAssCat} === 'CTR' ? 10 : 24}"
+														valueHelpRequest=".gsapProjectSectionEvent.onSettlementHelpRequest" showValueHelp="true"></Input>
+												</t:template>
+											</t:Column>
+											<t:Column>
+												<Label text="Split %"></Label>
+												<t:template>
+													<Input value="{gsapProjectLocalModel>PercentageRate}"></Input>
+												</t:template>
+											</t:Column>
+											<t:Column width="5rem">
+												<Label text="Action"></Label>
+												<t:template>
+													<Button icon="sap-icon://delete" press=".gsapProjectSectionEvent.onSettlementDelete"/>
+												</t:template>
+											</t:Column>
+										</t:columns>
+									</t:Table>
+									<Panel headerText="Multi level Details" expandable="true" expanded="false" class="shellYellow">
+										<Toolbar>
+											<Button icon="sap-icon://add" tooltip="Add level 2 wbs element" press=".gsapProjectSectionEvent.addmultilevelAdd"/>
+											<ToolbarSpacer></ToolbarSpacer>
+										</Toolbar>
+										<List items="{gsapProjectLocalModel>level}" mode="Delete" delete=".gsapProjectSectionEvent.onMultiLevelDelete"
+											noDataText="No Multi Level WBS Details found, please Proceed to Create">
+											<items>
+												<CustomListItem>
+													<content>
+														<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="1" labelSpanL="5" labelSpanM="4" emptySpanXL="0" emptySpanL="0"
+															emptySpanM="0" columnsXL="2" columnsL="2" columnsM="2" class="editableForm">
+															<core:Title text="" level="H3"/>
+															<Label text="WBS Element"></Label>
+															<Input value="{gsapProjectLocalModel>WbsElement}" enabled="false"></Input>
+															<Label text="Description" required="true"></Label>
+															<Input value="{gsapProjectLocalModel>Description}" maxLength="40"></Input>
+															<Label text="Responsible Cost Center" required="true"></Label>
+															<Input value="{gsapProjectLocalModel>RespsblCctr}" maxLength="10" showValueHelp="true"
+																valueHelpRequest=".gsapProjectSectionEvent.onResponsibleCostCenterSearch"></Input>
+															<Label text="WBS Up"></Label>
+															<Input value="{gsapProjectLocalModel>WbsUp}" enabled="false"></Input>
+															<core:Title text="" level="H3"/>
+															<Label text="Account Assignment" required="true"></Label>
+															<CheckBox selected="{= ${gsapProjectLocalModel>WbsAccountAssignmentElement} === 'X'}" select=".gsapProjectSectionEvent.onCheckBoxSelectWBS"/>
+															<Label text="WBS Billing Element"></Label>
+															<CheckBox selected="{= ${gsapProjectLocalModel>WbsBillingElement} === 'X'}" select=".gsapProjectSectionEvent.onCheckBoxSelectWBS"
+																enabled="false"/>
+															<Label text="User Key Field"></Label>
+															<Input value="{gsapProjectLocalModel>UserFieldKey}" maxLength="7"></Input>
+															<Label text="User key field Key 2"></Label>
+															<Input value="{gsapProjectLocalModel>UserFieldChar202}" maxLength="20"></Input>
+														</f:SimpleForm>
+														<t:Table visibleRowCount="2" fixedRowCount="0" rows="{gsapProjectLocalModel>settlementRule}" selectionMode="Single">
+															<t:toolbar>
+																<Toolbar>
+																	<content>
+																		<Title text="Settlement Rule"/>
+																		<ToolbarSpacer/>
+																		<Button icon="sap-icon://sys-add" tooltip="Add Settlement Rule Item" press=".gsapProjectSectionEvent.onSettlementAddLevel"/>
+																	</content>
+																</Toolbar>
+															</t:toolbar>
+															<t:columns>
+																<t:Column width="8rem">
+																	<Label text="CAT"></Label>
+																	<t:template>
+																		<Select selectedKey="{gsapProjectLocalModel>AccntAssCat}" enabled="false">
+																			<items>
+																				<core:Item key="CTR" text="CTR"/>
+																				<core:Item key="WBS" text="WBS"/>
+																			</items>
+																		</Select>
+																	</t:template>
+																</t:Column>
+																<t:Column>
+																	<Label text="Settlement Receiver"></Label>
+																	<t:template>
+																		<Input value="{gsapProjectLocalModel>SettlementRecevier}" maxLength="{= ${gsapProjectLocalModel>AccntAssCat} === 'CTR' ? 10 : 24}"
+																			valueHelpRequest=".gsapProjectSectionEvent.onSettlementHelpRequest" showValueHelp="true"></Input>
+																	</t:template>
+																</t:Column>
+																<t:Column>
+																	<Label text="Split %"></Label>
+																	<t:template>
+																		<Input value="{gsapProjectLocalModel>PercentageRate}"></Input>
+																	</t:template>
+																</t:Column>
+																<t:Column width="5rem">
+																	<Label text="Action"></Label>
+																	<t:template>
+																		<Button icon="sap-icon://delete" press=".gsapProjectSectionEvent.onSettlementDeleteLevel"/>
+																	</t:template>
+																</t:Column>
+															</t:columns>
+														</t:Table>
+													</content>
+												</CustomListItem>
+											</items>
+										</List>
+									</Panel>
+								</content>
+							</CustomListItem>
+						</items>
+					</List>
+				</WizardStep>
+			</Wizard>
+		</content>
+		<customData>
+			<core:CustomData key="modelName" value="oProvCompCodeModel"/>
+		</customData>
+		<buttons>
+			<Button text="Cancel" press="onGSAPProjFragClose"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

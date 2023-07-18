@@ -1,0 +1,176 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<!-- @Task 290069 -->
+	<f:Form editable="true">
+		<f:layout>
+			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+				emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+		</f:layout>
+		<f:formContainers>
+			<f:FormContainer title="General Details">
+				<f:formElements>
+					<f:FormElement label="Need Contract Validation" visible="false">
+						<f:fields>
+							<Select enabled="true" forceSelection="false" selectedKey="{holderModel>/contractValidation}">
+								<items>
+									<core:Item key="Y" text="Yes"/>
+									<core:Item key="N" text="No"/>
+								</items>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="FDR Number">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/fdrno} === 'X'}" enabled="false" value="{localDataModel>/fdrno}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Status">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/fdrstatus} === 'X'}" enabled="false"
+								value="{= ${localDataModel>/fdrstatusdesc} !== null &amp;&amp; ${localDataModel>/fdrstatusdesc} !== '' 
+								? ${localDataModel>/fdrstatusdesc} : ${localDataModel>/fdrstatus} }"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Route" visible="{= ${tileIdentityModel>/role} !== 'CNC'}">
+						<f:fields>
+							<Select  enabled="false" forceSelection="false"
+								items="{ path: 'feederMainODataModel>/generic', filters:[{path:'varfld',operator: 'EQ', value1:'FDRR'},{path:'deletionflag',operator: 'NE', value1:'X'}]}"
+								selectedKey="{localDataModel>/fdrroute}">
+								<core:Item key="{feederMainODataModel>code}" text="{feederMainODataModel>desc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<!-- @START: Task 272249 -->
+					<f:FormElement label="Sub Route" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${localDataModel>/business} === 'UP'}">
+						<f:fields>
+							<Select forceSelection="false" selectedKey="{localDataModel>/subroute}" enabled="{= (${tileIdentityModel>/role} === 'GSR' || 
+								${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+								&amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CH')}"> <!-- @Task 341435 -->
+								<items>
+									<core:Item key="DIR" text="Direct"/>
+									<core:Item key="EBD" text="EBD"/>
+								</items>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<!-- @END: Task 272249 -->
+					<f:FormElement label="Description">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/fdrdescription} === 'X'}" value="{localDataModel>/fdrdescription}"
+								enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF'  || ${tileIdentityModel>/role} === 'SUPADM') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"/> <!-- @Task 319741, 341435 -->
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Plan FDR No." visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/planfdrno} === 'X'}" value="{localDataModel>/planfdrno}" showValueHelp="true" 
+								valueHelpOnly="true" valueHelpRequest="onHeaderValueHelpSearch" enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' 
+								&amp;&amp; ${tileIdentityModel>/role} === 'GSR'}"> <!-- @Task 341209 -->
+								<customData>
+									<core:CustomData key="path" value="planfdrno"/>
+									<core:CustomData key="fragmentName" value="PlanFDRSearch"/>
+									<core:CustomData key="fragVariable" value="planfdrfrag"/>
+								</customData>
+							</Input>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Allocation Details">
+				<f:formElements>
+					<f:FormElement label="Business" visible="{= ${tileIdentityModel>/role} !== 'RNA'}"> <!-- @Task 404517 -->
+						<f:fields>
+							<Select enabled="false" forceSelection="false"
+								items="{ path: 'feederMainODataModel>/generic', filters:[{path:'varfld',operator: 'EQ', value1:'BUSI'},{path:'deletionflag',operator: 'NE', value1:'X'}]}"
+								selectedKey="{localDataModel>/business}">
+								<core:Item key="{feederMainODataModel>code}" text="{feederMainODataModel>desc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Sub Business" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+						<f:fields>
+							<Select enabled="false" forceSelection="false"
+								items="{ path: 'feederMainODataModel>/generic', filters:[{path:'varfld',operator: 'EQ', value1:'SBUS'},{path:'deletionflag',operator: 'NE', value1:'X'}]}"
+								selectedKey="{localDataModel>/subbusiness}">
+								<core:Item key="{feederMainODataModel>code}" text="{feederMainODataModel>desc}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Allocation Set ID" visible="{= ${localDataModel>/fdrroute} !== 'DIR'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/allocationsetid} === 'X'}" enabled="false" value="{localDataModel>/allocationsetid}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Distribution Channel" visible="{= ${tileIdentityModel>/role} !== 'CNC'}">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/dc} === 'X'}" enabled="false" value="{localDataModel>/dc}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Attachment list" visible="{= ${localDataModel>/business} === 'UP' &amp;&amp; ${localDataModel>/workflowflag} === 'X'}">
+						<f:fields>
+							<Button icon="sap-icon://attachment" press="getListOfAttachment"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement  label="Plan Value" visible="{= ${localDataModel>/fdrroute} !== 'GCB' &amp;&amp; ${localDataModel>/fdrroute} !== 'GCF'}">
+						<f:fields>
+							<!-- @START: Task 285640 -->
+							<Input type="Number" required="{= ${mandateIndicatorModel>/planbudgetvalue} === 'X'}" value="{localDataModel>/planbudgetvalue}"
+								change="onPlanBudgetChange"
+								enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"/> <!-- @Task 319741, 341435 -->
+							<!-- @END: Task 285640 -->
+							<!-- @START: Task 322392 -->
+							<!-- <Select items="{serp110ODataModel>/CurrencySet}" selectedKey="{localDataModel>/currency}"
+								change="onPlanBudgetChange"
+								enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF') &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}"> 
+								<items>
+									<core:Item key="{serp110ODataModel>Waers}" text="{serp110ODataModel>Description}({serp110ODataModel>Waers})"/>
+								</items>
+								<layoutData>
+									<l:GridData span="XL2 L1 M3 S4"/>
+								</layoutData>
+							</Select> -->
+							<Input value="{localDataModel>/currency}" change="onPlanBudgetChange" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onHeaderValueHelpSearch" 
+								enabled="{= (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF' || ${tileIdentityModel>/role} === 'SUPADM') 
+								&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPRD' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCSR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHRNA' 
+								&amp;&amp; ${localDataModel>/fdrstatus} !== 'CHPCR' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHCRN'}" > <!-- @Task 319741, 341435 -->
+								<customData>
+									<core:CustomData key="path" value="currency"/>
+									<core:CustomData key="fragmentName" value="Currency"/>
+									<core:CustomData key="fragVariable" value="currencyFrag"/>
+								</customData>
+							</Input>
+							<!-- @END: Task 322392 -->
+							<Button icon="sap-icon://lead" tooltip="Assign Budget to Multiple Years" press="onBudgetPress" 
+								enabled="{= ${localDataModel>/planbudgetvalue} !== undefined &amp;&amp; ${localDataModel>/planbudgetvalue} !== ''}">
+								<layoutData>
+									<l:GridData span="XL1 L1 M2 S3"/>
+								</layoutData>
+							</Button>
+						</f:fields>
+					</f:FormElement>
+					<!-- @START: Task 271620 -->
+					<f:FormElement visible="{= ${localDataModel>/fdrroute} === 'GCB' || ${localDataModel>/fdrroute} === 'GCF'}">
+						<f:label>
+							<Label text="Currency" required="{= ${mandateIndicatorModel>/socurrency} === 'X'}" ></Label>
+						</f:label>
+						<f:fields>
+							<Select forceSelection="false" items="{gcBoaFeederODataModel>/currency}" selectedKey="{localDataModel>/socurrency}"
+								enabled="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${tileIdentityModel>/role} !== 'ADMIN'}"> <!-- @Task 341209 -->
+								<core:Item key="{gcBoaFeederODataModel>socurrency}" text="{gcBoaFeederODataModel>socurrency}"/>
+							</Select>
+						</f:fields>
+					</f:FormElement>
+					<!-- @END: Task 271620 -->
+				</f:formElements>
+			</f:FormContainer>
+		</f:formContainers>
+	</f:Form>
+</core:FragmentDefinition>

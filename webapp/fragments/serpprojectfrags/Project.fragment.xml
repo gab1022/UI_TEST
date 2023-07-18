@@ -1,0 +1,31 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout">
+	<Dialog id="idMainDialog" title="{i18n>projectPopoverTitle}" class="sapUiPopupWithPadding" contentHeight="80%" contentWidth="80%" verticalScrolling="false">
+		<buttons>
+			<Button text="{i18n>projectSubmit}" press="onSubmitProjectWBS" visible="{= ${localDataModel>/onlyproject} !== 'N' &amp;&amp; ${localDataModel>/fdrstatus} !== 'RELSD'}" /> <!-- @Task 390770, 406278 -->
+			<Button text="{i18n>projectClose}" press="onCloseProjectDialog" />
+		</buttons>
+		<content>
+			<l:Splitter>
+				<VBox height="100%">
+					<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.serpprojectfrags.ProjectHierarchy" type="XML"/>
+					<layoutData><l:SplitterLayoutData size="25%" resizable="true" /></layoutData>
+				</VBox>
+				<VBox> 
+					<Panel expanded="false" class="sapUiNoContentPadding sapUiNoMargin" visible="{= ${localDataModel>/onlyproject} !== 'N'}">  <!-- @Task 390770 -->
+						<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.serpprojectfrags.ProjectWBSDetails" type="XML"/>
+						<layoutData><l:SplitterLayoutData size="auto" /></layoutData>
+					 <!-- @START: Task 390770 -->
+					</Panel>
+					<Panel expanded="false" class="sapUiNoContentPadding sapUiNoMargin" visible="{= ${localDataModel>/onlyproject} === 'N'}">
+						<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.serpprojectfrags.WBSDetailsComplex" type="XML"/>
+						<layoutData><l:SplitterLayoutData size="auto" /></layoutData>
+					</Panel>
+					<!-- @END: Task 390770 -->
+				</VBox>
+			</l:Splitter>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

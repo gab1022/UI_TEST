@@ -1,0 +1,28 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<Dialog title="Select Action for Change Process">
+		<buttons>
+			<Button text="Confirm" type="Accept" press="onSubmit"/>
+			<Button text="Cancel" type="Reject" press="onChangeClose"/>
+		</buttons>
+		<content>
+			<RadioButtonGroup selectedIndex="{localDataModel>/changeApprovalFlag}">
+				<buttons>
+					<RadioButton text="Direct Update"/>
+					<RadioButton text="Send to Provider Confirmer" 
+						visible="{= parseFloat(${localDataModel>/planbudgetvalue}) >= parseFloat(${localDataModel>/fdrdefaults}['PLNBD'])}"/>
+					<RadioButton text="Send to Consumer"/>
+					<RadioButton text="Send to R&amp;A"/>
+					<RadioButton text="Send to Provider Confirmer+Consumer+R&amp;A" visible="{= parseFloat(${localDataModel>/planbudgetvalue}) >= parseFloat(${localDataModel>/fdrdefaults}['PLNBD'])}"/>
+					<RadioButton text="Send to Consumer+R&amp;A" visible="{= parseFloat(${localDataModel>/planbudgetvalue}) &lt; parseFloat(${localDataModel>/fdrdefaults}['PLNBD'])}"/>
+				</buttons>
+			</RadioButtonGroup>
+			<f:SimpleForm>
+				<f:content>
+					<Label text="Comments"></Label>
+					<TextArea value="{localDataModel>/comment}"></TextArea>
+				</f:content>
+			</f:SimpleForm>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

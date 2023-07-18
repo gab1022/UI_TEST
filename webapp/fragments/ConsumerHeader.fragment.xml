@@ -1,0 +1,107 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<f:Form editable="true">
+		<f:layout>
+			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+				emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+		</f:layout>
+		<f:formContainers>
+			<f:FormContainer title="General Details">
+				<f:formElements>
+					<f:FormElement label="FDR Number">
+						<f:fields>
+							<Input enabled="false" value="{localDataModel>/fdrno}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Status">
+						<f:fields>
+							<Input enabled="false" value="{= ${localDataModel>/fdrstatusdesc} !== null &amp;&amp; ${localDataModel>/fdrstatusdesc} !== '' 
+								? ${localDataModel>/fdrstatusdesc} : ${localDataModel>/fdrstatus} }"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Description">
+						<f:fields>
+							<Input value="{localDataModel>/fdrdescription}" enabled="false"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Function">
+						<f:fields>
+							<Input value="{localDataModel>/functiondesc}" enabled="false">
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Service">
+						<f:fields>
+							<Input id="idConsumerService" value="{localDataModel>/service}" enabled="false">
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Attachment list">
+						<f:fields>
+							<Button id="idConsumerAttachment" icon="sap-icon://attachment" press="getListOfAttachment"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement  label="Plan Value">
+						<f:fields>
+							<Input id="idConsumerPlanValue" type="Number" value="{localDataModel>/planbudgetvalue}" enabled="false"/>
+							<!-- @START: Task 329673 -->
+							<!--<Select items="{serp110ODataModel>/CurrencySet}" selectedKey="{localDataModel>/currency}" enabled="false">
+								<items>
+									<core:Item key="{serp110ODataModel>Waers}" text="{serp110ODataModel>Description}({serp110ODataModel>Waers})"/>
+								</items>
+								<layoutData>
+									<l:GridData span="XL2 L1 M3 S4"/>
+								</layoutData>
+							</Select>-->
+							<Input value="{localDataModel>/currency}" enabled="false" >
+								<layoutData>
+									<l:GridData span="XL2 L1 M3 S4"/>
+								</layoutData>
+							</Input>
+							<!-- @END: Task 329673 -->
+							<Button icon="sap-icon://lead" tooltip="Assign Budget to Multiple Years" press="onBudgetPress" 
+								enabled="{= (${localDataModel>/planbudgetvalue} !== undefined &amp;&amp; ${localDataModel>/planbudgetvalue} !== '')}">
+								<layoutData>
+									<l:GridData span="XL1 L1 M2 S3"/>
+								</layoutData>
+							</Button>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="Contact Details">
+				<f:formElements>
+					<f:FormElement label="Initiator">
+						<f:fields>
+							<Input id="idConsumerInitiator" value="{localDataModel>/initiator} - {localDataModel>/initiatorname}" enabled="false"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="GSR Focal">
+						<f:fields>
+							<Input value="{localDataModel>/gsrfocal} - {localDataModel>/gsrfocalname}" enabled="false">
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="R&amp;A Focal">
+						<f:fields>
+							<Input value="{localDataModel>/rnafocal} - {localDataModel>/rnafocalname}" enabled="false">
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Funding Manager">
+						<f:fields>
+							<Input value="{localDataModel>/fundingmanager} - {localDataModel>/fundingmanagername}" enabled="false">
+							</Input>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="Comments">
+						<f:fields>
+							<Input required="{= ${mandateIndicatorModel>/comment} === 'X'}" value="{localDataModel>/comment}"
+								enabled="{= ${localDataModel>/fdrstatus} !== 'RELSD' &amp;&amp; !${localDataModel>/fdrstatus}.startsWith('CL')}"></Input>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+		</f:formContainers>
+	</f:Form>
+</core:FragmentDefinition>

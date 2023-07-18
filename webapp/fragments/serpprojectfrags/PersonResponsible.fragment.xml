@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<SelectDialog
+		title="Person Responsible"
+		class="sapUiPopupWithPadding"
+		items="{serpProjectCreationODataModel>/personResponsibleSet}"
+		search="onValueHelpSearch"
+		confirm="onValueHelpConfirm"
+		cancel="_handleValueHelpClose" growingThreshold="50" >
+		<StandardListItem
+			title="{serpProjectCreationODataModel>Vernr}"
+			info=""
+			description="{serpProjectCreationODataModel>Verna}">
+		</StandardListItem>
+		<customData>
+			<core:CustomData key="filterProp" value="Vernr"></core:CustomData>
+			<core:CustomData key="formProp" value="PersonResponsible"></core:CustomData>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>

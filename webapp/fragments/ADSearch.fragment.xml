@@ -1,0 +1,26 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<Panel expandable="false">
+		<content>
+			<HBox class="sapUiSmallMargin">
+				<VBox class="sapUiSmallMarginEnd">
+					<Label text="Alias ID" class="sapUiSmallMarginEnd"></Label>
+					<Input class="sapUiSmallMarginEnd" value="{localDataModel>/adSearchAliasId}"></Input>
+				</VBox>
+				<VBox class="sapUiSmallMarginEnd">
+					<Label text="First Name" class="sapUiSmallMarginBegin"></Label>
+					<Input class="sapUiSmallMarginEnd" value="{localDataModel>/adSearchFirstName}"></Input>
+				</VBox>
+				<VBox class="sapUiSmallMarginEnd">
+					<Label class="sapUiSmallMarginBegin" text="Last Name"></Label>
+					<Input class="sapUiSmallMarginEnd" value="{localDataModel>/adSearchLastName}"></Input>
+				</VBox>
+				<VBox class="sapUiSmallMarginEnd">
+					<Label class="sapUiSmallMarginBegin" text="Email ID"></Label>
+					<Input class="sapUiSmallMarginEnd" value="{localDataModel>/adSearchEmailID}"></Input>
+				</VBox>
+				<Button class="sapUiSmallMarginTop sapUiSizeCompact" text="Search" press="onActiveDirectorySearch"/>
+			</HBox>
+		</content>
+	</Panel>
+</core:FragmentDefinition>

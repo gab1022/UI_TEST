@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
+	<Dialog title="FDR History">
+		<buttons>
+			<Button text="OK" press="onCloseAuditLog">
+			</Button>
+		</buttons>
+		<Table items="{path:'localDataModel>/auditlog', sorter: {path: 'changedon', descending: false}}" growing="true" growingThreshold="10"> <!-- @ Bug 328085 -->
+			<columns>
+				<Column width="20rem"><Text text="Action Performed"></Text></Column>
+				<Column width="10rem"><Text text="Performed On"></Text></Column>
+				<Column width="10rem"><Text text="Person Responsible"></Text></Column>
+			</columns>
+			<items>
+				<ColumnListItem>
+					<cells>
+						<Text text="{localDataModel>fdrstatus}"></Text>
+						<Text text="{path: 'localDataModel>changedon',
+					        type: 'sap.ui.model.type.Date',
+					        formatOptions: {
+					          pattern: 'MMM dd, yyyy hh:mm aaa'
+					        }}"></Text>
+						<Text text="{localDataModel>personresponsible}"></Text>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Dialog>
+</core:FragmentDefinition>

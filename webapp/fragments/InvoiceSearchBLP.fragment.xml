@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:l="sap.ui.layout">
+	<SelectDialog
+	noDataText="No Invoice Recipients Found"
+		confirm="onValueHelpConfirmItems"
+		cancel="onHelpCancel"
+		title="Select Invoice Recepient"
+		items="{path:'consumerSearchBLPLocalModel>/results'}"
+		growingThreshold="100"
+		search="valueHelpSearch"
+		>
+		<items>
+			<ObjectListItem title="{consumerSearchBLPLocalModel>UserId}">
+				<attributes>
+					<ObjectAttribute title="Name" text="{consumerSearchBLPLocalModel>DisplayName}"></ObjectAttribute>
+					<ObjectAttribute title="MOA Amount" text="{consumerSearchBLPLocalModel>MoaAmount}"></ObjectAttribute>
+				</attributes>
+			</ObjectListItem>
+		</items>
+		<customData>
+			<core:CustomData key="selctionParameter" value="selectedItem"/>
+			<core:CustomData key="selctionBindingContext" value="consumerSearchBLPLocalModel"/>
+			<core:CustomData key="selctionProperty" value="UserId"/>
+			<core:CustomData key="searchField" value="UserId,DisplayName"/>
+			<core:CustomData key="searchCondition" value="OR"/>
+			<core:CustomData key="searchOperator" value="Contains"/>
+			<core:CustomData key="fragControl" value="_oList"/>
+			<core:CustomData key="fragBindingInfo" value="items"/>
+		</customData>
+	</SelectDialog>
+</core:FragmentDefinition>
