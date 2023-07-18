@@ -1,0 +1,5 @@
+<mvc:View controllerName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.controller.App" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true" xmlns="sap.m">
+	<SplitApp id="idAppControl" busy="{busyModel>/flag}" class="masterStyle">
+	</SplitApp>
+</mvc:View>

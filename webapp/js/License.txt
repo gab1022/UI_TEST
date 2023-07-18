@@ -1,0 +1,1 @@
+xlsxfull.js - https://raw.githubusercontent.com/SheetJS/js-xlsx/c7010eec35949e35659184bd466d30ed2487cfd8/LICENSE

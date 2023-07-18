@@ -1,0 +1,41 @@
+{
+	"project": [{
+		"name": "ControllingArea",
+		"msg": "Please add Controlling Area to continue"
+	}, {
+		"name": "CompanyCode",
+		"msg": "Please add Company Code to continue"
+	}, {
+		"name": "Plant",
+		"msg": "Please add Plant to continue"
+	}, {
+		"name": "ProfitCtr",
+		"msg": "Please add Profit Center to continue"
+	}, {
+		"name": "Description",
+		"msg": "Please add Project Description to continue"
+	}, {
+		"name": "ProjectCurrency",
+		"msg": "Please add Project Currency to continue"
+	}, {
+		"name": "ResponsibleNo",
+		"msg": "Please add Responsible Number to continue"
+	}, {
+		"name": "Start",
+		"msg": "Please add Start Date to continue"
+	} ],
+	"levelWBS": [{
+		"name": "Description",
+		"msg": "Please add Level 1 Description to continue"
+	}, {
+		"name": "RespsblCctr",
+		"msg": "Please add Responsible Cost center to continue"
+	} ],
+	"settlement": [{
+		"name": "SettlementRecevier",
+		"msg": "Please add Settlement Recevier to continue"
+	}, {
+		"name": "PercentageRate",
+		"msg": "Please add Settlement Percentage to continue"
+	} ]
+}

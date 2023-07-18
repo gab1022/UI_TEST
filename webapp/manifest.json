@@ -1,0 +1,488 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.38.11"
+		},
+		"dataSources": {
+			"contractService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/mycontracts/services/contracts.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"allocationsetService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/allocationset/services/allocationset.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"ZECT_GET_PR_CUS_SRV_01": {
+				"uri": "/GF_SERP_ECC_150/sap/opu/odata/sap/ZECT_GET_PR_CUS_SRV_01/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"SERP_110_Service": {
+				"uri": "/GF_SERP_ECC_110/sap/opu/odata/sap/ZECT_GET_PR_CUS_SRV_01/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"fdrPlusService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/fdrplus/services/fdrplus.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"fdrPlusFeederService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/fdrplus/services/feeder.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"feederMainService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/utility/services/generic.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"dsFeederService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/downstream/services/feeder.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"gcBoaFeederService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/gc/boa/services/feeder.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"GSAP_MODELX": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/FI_MODEL_CREATE_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"GSAP_CC_Search": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/FI_C_SH_COSTCENTER_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"GSAP_WBS_Search": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/FI_C_SH_WBSELEMENT_SRV_01/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"GSAP_PROJ_SER": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/FI_C_CREATE_FDR_WBS_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"GSAP_PROVIDER_CODING_SRV": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/SD_C_PROVIDERCODE_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"GSAP_PROJ_CLOSE_SER": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/FI_MODEL_WBS_CLOSURE_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"normalizationService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/downstream/services/dowstream.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"planFDRService": {
+				"uri": "/GF_SCP_HANADB/com/shell/cumulus/fdr/services/gcplan.xsodata/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"gsapCustService": {
+				"uri": "/DS_GSAP_ECC_110/sap/opu/odata/DS1/SD_C_CUSTOMERSEARCH_SRV/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			},
+			"SERP_Project_Service": {
+				"uri": "/GF_SERP_ECC_110/sap/opu/odata/sap/ZCUMULUS_SRV/",
+				"type": "OData"
+			},
+			"SERP_Email_Service": {
+				"uri": "/GF_SERP_ECC_150/sap/opu/odata/sap/Z_SRV_SENDMAIL_SRV/",
+				"type": "OData"
+			},
+			"gsapProjectMandateService": {
+				"uri": "./model/GSAPProjMandateFields.json",
+				"type": "JSON"
+			},
+			"mandateFieldsService": {
+				"uri": "./model/MandatoryFieldsCheck.json",
+				"type": "JSON"
+			}
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.i18n.i18n"
+				}
+			},
+			"fdrPlusODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "fdrPlusService"
+			},
+			"allocationSetODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "allocationsetService"
+			},
+			"feederMainODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "feederMainService"
+			},
+			"normalizationDataODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "normalizationService"
+			},
+			"contractODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "contractService"
+			},
+			"dsFeederODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "dsFeederService"
+			},
+			"gcBoaFeederODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "gcBoaFeederService"
+			},
+			"serp150ODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"useBatch": false
+				},
+				"dataSource": "ZECT_GET_PR_CUS_SRV_01"
+			},
+			"serp150ODataModelBatch": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "ZECT_GET_PR_CUS_SRV_01"
+			},
+			"serp110ODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"useBatch": false,
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "SERP_110_Service"
+			},
+			"serp110ODataModelBatch": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "SERP_110_Service"
+			},
+			"serp110ODataModelWOB": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"useBatch": false,
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "SERP_110_Service"
+			},
+			"gsapWbsSearchModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "GSAP_WBS_Search"
+			},
+			"gsapCCSearchModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "GSAP_CC_Search"
+			},
+			"gsapModelXODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "GSAP_MODELX"
+			},
+			"gsapProviderCodingODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true",
+					"useBatch": false
+				},
+				"dataSource": "GSAP_PROVIDER_CODING_SRV"
+			},
+			"planFDRODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "planFDRService"
+			},
+			"fdrPlusFeedOdataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "fdrPlusFeederService"
+			},
+			"gsapProjectODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "GSAP_PROJ_SER"
+			},
+			"gsapProjectCloseODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"useBatch": "true",
+					"defaultOperationMode": "Server"
+				},
+				"dataSource": "GSAP_PROJ_CLOSE_SER"
+			},
+			"gsapCustSearchOdataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneTime",
+					"defaultCountMode": "Request",
+					"disableHeadRequestForToken": "true"
+				},
+				"dataSource": "gsapCustService"
+			},
+			"serpProjectCreationODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "SERP_Project_Service",
+				"preload": true
+			},
+			"serpEmailODataModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "SERP_Email_Service",
+				"preload": true
+			},
+			"mandateFieldsLocalModel": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "mandateFieldsService"
+			},
+			"gsapProjectMandateFields": {
+				"type": "sap.ui.model.json.JSONModel",
+				"dataSource": "gsapProjectMandateService"
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.view",
+				"controlAggregation": "detailPages",
+				"controlId": "idAppControl",
+				"clearControlAggregation": false
+			},
+			"routes": [
+				{
+					"name": "home",
+					"pattern": "",
+					"target": [
+						"FDRDetailPage",
+						"FDRMasterPage"
+					]
+				},
+				{
+					"name": "detail",
+					"pattern": "detailPage/{fdrInd}/{index}",
+					"target": [
+						"FDRMasterPage",
+						"FDRDetailPage"
+					]
+				},
+				{
+					"name": "fdrCreate",
+					"pattern": "fdrCreate/{index}",
+					"target": [
+						"FDRMasterPage",
+						"FDRDetailPage"
+					]
+				},
+				{
+					"name": "empty",
+					"pattern": "NoDetailsFound",
+					"target": [
+						"FDRMasterPage",
+						"Empty"
+					]
+				}
+			],
+			"targets": {
+				"TargetApp": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "App"
+				},
+				"FDRMasterPage": {
+					"viewType": "XML",
+					"viewName": "FDRMasterPage",
+					"controlAggregation": "masterPages"
+				},
+				"FDRDetailPage": {
+					"viewType": "XML",
+					"viewName": "FDRDetailPage"
+				},
+				"Empty": {
+					"viewType": "XML",
+					"viewName": "Empty"
+				}
+			}
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.1.0"
+	}
+}

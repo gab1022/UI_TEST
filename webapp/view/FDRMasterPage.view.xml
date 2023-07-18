@@ -1,0 +1,60 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	controllerName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.controller.FDRMasterPage" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="FDR List">
+		<subHeader>
+			<Bar >
+				<contentMiddle>
+					<SearchField id="idSearchField" showRefreshButton="true" tooltip="{i18n>masterSearchTooltip}" width="100%" search="onFDRSearch"
+						liveChange="onFDRSearchLiveChange"></SearchField>
+				</contentMiddle>
+			</Bar>
+		</subHeader>
+		<content>
+			<Button press="onFDRCreatePress" text="Click Here To Create a New Recovery Request" visible="{= ${tileIdentityModel>/role} === 'GSR'}"/>
+			<List id="idfdrList" items="{path:'fdrPlusODataModel>/fdrplusheadersearch',sorter: { path: 'createdon', descending: true }}"
+				selectionChange="onFDRSelection" mode="SingleSelectMaster" noDataText="{i18n>masterListNoData}" growing="true" growingThreshold="20"
+				growingScrollToLoad="true" updateStarted="onMasterListUpdateStarted" visible="{= ${tileIdentityModel>/role} !== 'SUPADM' 
+				&amp;&amp; ${tileIdentityModel>/role} !== 'DISPLAY'}"> <!-- @Task 319741, 341209 -->
+				<items>
+					<ObjectListItem title="{fdrPlusODataModel>fdrno}">
+						<attributes>
+							<ObjectAttribute title="Route" text="{fdrPlusODataModel>fdrroute}"></ObjectAttribute>
+							<ObjectAttribute title="Status"
+								text="{= ${fdrPlusODataModel>fdrstatusdesc} !== null &amp;&amp; ${fdrPlusODataModel>fdrstatusdesc} !== '' ? ${fdrPlusODataModel>fdrstatusdesc} : ${fdrPlusODataModel>fdrstatus} }"></ObjectAttribute>
+							<ObjectAttribute title="DC" text="{fdrPlusODataModel>dc}"></ObjectAttribute>
+							<ObjectAttribute title="Business" text="{fdrPlusODataModel>businessdesc}" visible="{= ${tileIdentityModel>/role} !== 'PRC' 
+								&amp;&amp; ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${tileIdentityModel>/role} !== 'RNA'}"></ObjectAttribute> <!-- @Tasks 404515, 404516, 404517 -->
+							<ObjectAttribute title="Description" text="{fdrPlusODataModel>fdrdescription}"></ObjectAttribute>
+						</attributes>
+					</ObjectListItem>
+				</items>
+			</List>
+			<!-- @START: Task 319741, 341209 -->
+			<List id="idfdrSupAdmList" items="{path:'fdrPlusODataModel>/fdrheader',sorter: { path: 'createdon', descending: true }}"
+				selectionChange="onFDRSelection" mode="SingleSelectMaster" noDataText="{i18n>masterListNoData}" growing="true" growingThreshold="20"
+				growingScrollToLoad="true" updateStarted="onMasterListUpdateStarted" visible="{= ${tileIdentityModel>/role} === 'SUPADM' || 
+				${tileIdentityModel>/role} === 'DISPLAY'}">
+				<items>
+					<ObjectListItem title="{fdrPlusODataModel>fdrno}">
+						<attributes>
+							<ObjectAttribute title="Route" text="{fdrPlusODataModel>fdrroute}"></ObjectAttribute>
+							<ObjectAttribute title="Status"
+								text="{= ${fdrPlusODataModel>fdrstatusdesc} !== null &amp;&amp; ${fdrPlusODataModel>fdrstatusdesc} !== '' ? ${fdrPlusODataModel>fdrstatusdesc} : ${fdrPlusODataModel>fdrstatus} }"></ObjectAttribute>
+							<ObjectAttribute title="DC" text="{fdrPlusODataModel>dc}"></ObjectAttribute>
+							<ObjectAttribute title="Business" text="{fdrPlusODataModel>business}"></ObjectAttribute>
+							<ObjectAttribute title="Description" text="{fdrPlusODataModel>fdrdescription}"></ObjectAttribute>
+						</attributes>
+					</ObjectListItem>
+				</items>
+			</List>
+			<!-- @END: Task 319741, 341209 -->
+		</content>
+		<footer>
+			<Bar>
+				<contentLeft>
+					<Button text="Excel Test" press="onClickTest" visible="false"></Button>
+				</contentLeft>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>

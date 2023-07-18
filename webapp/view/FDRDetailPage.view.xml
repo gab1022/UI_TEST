@@ -1,0 +1,78 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.ui.table" controllerName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.controller.FDRDetailPage"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="FDR Detail">
+		<!--<subHeader>
+				<OverflowToolbar visible="{= ${tileIdentityModel>/role} === 'CNC'}">
+					<ToolbarSpacer></ToolbarSpacer>
+					<Link text="Help" press="onConsumerHelp"></Link>
+				</OverflowToolbar>
+		</subHeader>-->
+		<content>
+			<Panel expandable="false" visible="{= ${tileIdentityModel>/role} !== 'CNC' &amp;&amp; ${tileIdentityModel>/role} !== 'PRC'}">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.FDRHeadSecOne" type="XML"/>
+			</Panel>
+			<Panel expandable="false" visible="{= ${tileIdentityModel>/role} === 'PRC'}">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ProviderConfirmerHeader" type="XML"/>
+			</Panel>
+			<Panel expandable="false" visible="{= ${tileIdentityModel>/role} === 'CNC'}">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ConsumerHeader" type="XML"/>
+			</Panel>
+			<Panel expandable="true" headerText="Provider Details">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ProviderSection" type="XML"/>
+			</Panel>
+			<Panel expandable="true" visible="{= ${tileIdentityModel>/role} !== 'CNC'}" headerText="Recipient Details">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.RecepientSection" type="XML"/>
+			</Panel>
+			<Panel expandable="false" visible="{= ${tileIdentityModel>/role} === 'CNC'}" headerText="Recipient Details">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.ConsumerRecipient" type="XML"/>
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="FDR Details" visible="{= ${tileIdentityModel>/role} !== 'CNC'}">
+				<core:Fragment fragmentName="com.shell.gf.cumulus.fdrplus.gfcumulusfdrcreat.fragments.FDRHeadSecTwo" type="XML"/>
+			</Panel>
+		</content>
+		<footer>
+			<Toolbar>
+				<Button text="Help" press="onConsumerHelp" visible="{= ${tileIdentityModel>/role} === 'CNC'}"></Button>
+				<Button icon="sap-icon://edit" text="Edit" press="onChangeFDR" visible="{= ${localDataModel>/fdrstatus} === 'RELSD'
+					&amp;&amp; ${tileIdentityModel>/role} !== 'PRC' &amp;&amp; ${tileIdentityModel>/role} !== 'ADMIN' &amp;&amp; 
+					${tileIdentityModel>/role} !== 'DISPLAY'}"/> <!-- @Task 232398, 341209 -->
+				<Button icon="sap-icon://sys-cancel-2" text="Close FDR" press="onCloseFDR" visible="{= (${localDataModel>/fdrstatus} === 'RELSD' || ${localDataModel>/fdrstatus} === 'CLPRE')
+					&amp;&amp; (${tileIdentityModel>/role} === 'GSR' || ${tileIdentityModel>/role} === 'GSRWF')}"/> <!-- @Task 232399, 290069, 325457, 354125 -->
+				<!-- @START: Task 341435 -->
+				<Button icon="sap-icon://alert" text="Obsolete FDR" press="onOpenWindow" visible="{= ${tileIdentityModel>/role} === 'SUPADM'
+					&amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'}">
+					<customData>
+						<core:CustomData key="fragmentName" value="FDRObsolete"/>
+						<core:CustomData key="fragVariable" value="fdrObsoleteFrag"/>
+						<core:CustomData key="path" value="fdrobsolete"/>
+					</customData>
+				</Button>
+				<!-- @END: Task 341435 -->
+				<Button icon="sap-icon://customer-history" text="Change Log" press="onOpenChangeLog"
+					visible="{= (${localDataModel>/workflowflag} === 'X' &amp;&amp; ${localDataModel>/fdrstatus}.startsWith('CH')) || 
+					${tileIdentityModel>/role} === 'SUPADM'}"></Button> <!-- @Task 269676, 319741 -->
+				<Button icon="sap-icon://time-account" text="History" press="onOpenAuditLog"/> <!-- @Task 223652 -->
+				<ToolbarSpacer></ToolbarSpacer>
+				<Button text="Save" press="onSave" visible="{= ${tileIdentityModel>/role} !== 'PRC' &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY' 
+					&amp;&amp; ${tileIdentityModel>/role} !== 'ADMIN'}" enabled="{= ${localDataModel>/disableaction} !== 'Y'}"/> <!-- @Task 232398, 341209, 319741 -->
+				<Button text="Reject" type="Reject" press="onRejectOpen" visible="{= (${tileIdentityModel>/role} === 'PRC' || 
+					${tileIdentityModel>/role} === 'CNC' || ${tileIdentityModel>/role} === 'RNA' || 
+					(${tileIdentityModel>/role} === 'GSRWF' &amp;&amp; ${localDataModel>/workflowflag} === 'X' 
+					&amp;&amp; (${localDataModel>/fdrstatus} === 'CRETD' || ${localDataModel>/fdrstatus} === 'CHGSR'))) &amp;&amp; ${localDataModel>/viewmode} !== 'DISPLAY'}"
+					enabled="{= ${localDataModel>/disableaction} !== 'Y'}"/> <!-- @Task 211175, 217083, 232398, 240410, 290069, 341435 -->
+				<Button visible="{= ${localDataModel>/viewmode} !== 'DISPLAY' &amp;&amp; ${localDataModel>/fdrstatus} !== 'CHGSR' &amp;&amp; 
+					${localDataModel>/fdrstatus} !== 'CHRJG' &amp;&amp; ${tileIdentityModel>/role} !== 'ADMIN' &amp;&amp; ${tileIdentityModel>/role} !== 'SUPADM'}"
+					enabled="{= ${localDataModel>/locksubmit} !== 'Y' &amp;&amp; ${localDataModel>/disableaction} !== 'Y'}"
+					text="{= (${tileIdentityModel>/role} === 'PRC' || ${tileIdentityModel>/role} === 'CNC' || ${tileIdentityModel>/role} === 'RNA' || 
+					(${tileIdentityModel>/role} === 'GSRWF' &amp;&amp; ${localDataModel>/workflowflag} === 'X' 
+					&amp;&amp; ${localDataModel>/fdrstatus} === 'CRETD')) ? 'Approve' : 'Submit'}" type="Accept" press="onSubmit"/> <!-- @Task 217083, 232398, 242893, 290069, 341209, 319741 -->
+				<Button visible="{= ${tileIdentityModel>/role} === 'GSRWF' &amp;&amp; (${localDataModel>/fdrstatus} === 'CHGSR' ||
+					${localDataModel>/fdrstatus} === 'CHRJG')}" text="Submit Change" type="Accept" press="onChangeSubmit"/> <!-- @Task 232398, 290069 -->
+				<Button type="Accept" visible="{= ${tileIdentityModel>/role} === 'ADMIN' &amp;&amp; (${localDataModel>/viewmode} !== 'DISPLAY' 
+					|| ${localDataModel>/fdrstatus} === 'RELSD')}" text="{= ${localDataModel>/fdrstatus} === 'RELSD' ? 'Submit' : 'Modify'} FDR" 
+					press="onSave"/>  <!-- @Task 239986, 319741, 341435, 349972 -->
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

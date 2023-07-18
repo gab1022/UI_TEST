@@ -1,0 +1,63 @@
+{
+	"GCB": {
+		"header": ["funtionid", "serviceid", "activityid", "business", "subbusiness", "allocationkey", "allocationsetid", "subset",
+			"fdrdescription", "fromdate", "todate", "dc", "fdrstatus", "coverage", "region", "agreementtype", "socurrency"
+		],
+		"provider": ["itemno", "subitemno", "providercompcode", "providersystem", "providergroupcompany", "provideraoo", "providerconfirmer",
+			"providercosttyp", "providercostobj", "prprftcenter"
+		],
+		"benificiary": ["itemno", "subitemno", "erpcomcode", "beneficiarycompcode", "refofbusiness", "rcgrpcomp", "rcaoo", "resys", "recoverycc"
+		]
+	},
+	"GCF": {
+		"header": ["funtionid", "serviceid", "activityid", "business", "subbusiness", "allocationkey", "allocationsetid", "subset",
+			"fdrdescription", "fromdate", "todate", "dc", "fdrstatus", "coverage", "region", "agreementtype", "socurrency"
+		],
+		"provider": ["itemno", "subitemno", "providercompcode", "providersystem", "providergroupcompany", "provideraoo", "providerconfirmer",
+			"providercosttyp", "providercostobj", "prprftcenter"
+		],
+		"benificiary": ["itemno", "subitemno", "erpcomcode", "beneficiarycompcode", "refofbusiness", "rcgrpcomp", "rcaoo", "resys", "recoverycc"
+		]
+	},
+	"EBD": {
+		"header": ["funtionid", "serviceid", "business", "subbusiness", "allocationkey", "allocationsetid", "subset",
+			"fdrdescription", "planbudgetvalue", "currency", "fromdate", "todate", "dc", "fundingmanager"
+		],
+		"provider": ["itemno", "subitemno", "providercompcode", "providersystem", "providergroupcompany", "provideraoo", "providerconfirmer",
+			"providercosttyp", "providercostobj"
+		],
+		"benificiary": ["itemno", "subitemno", "erpcomcode", "beneficiarycompcode", "refofbusiness", "soldto", "shipto", "billto", "payer",
+			"consumer", "budgetholder", "bencosttyp", "costobjval", "rcgrpcomp", "rcaoo", "resys"
+		]
+	},
+	"DIR": {
+		"header": [],
+		"provider": [],
+		"benificiary": []
+	},
+	"DIRDS": {
+		"header": ["fdrrecovertype", "fdrdescription", "planbudgetvalue", "currency", "fromdate", "todate", "dc", "funtionid", "serviceid",
+			"business", "fundingmanager"
+		],
+		"provider": ["itemno", "subitemno", "providercompcode", "providersystem", "providergroupcompany", "provideraoo", "providerconfirmer",
+			"providercosttyp", "providercostobj", "prprftcenter"
+		],
+		"benificiary": ["itemno", "subitemno", "erpcomcode", "beneficiarycompcode", "soldto", "shipto", "billto", "payer", "consumer", 
+			"budgetholder", "rcgrpcomp", "rcaoo", "resys"
+		]
+	},
+	"DIRUP": {
+		"header": ["fdrrecovertype", "fdrdescription", "planbudgetvalue", "currency", "fromdate", "todate", "dc", "funtionid", "serviceid",
+			"business", "fundingmanager"
+		],
+		"provider": ["itemno", "subitemno", "providercompcode", "providersystem", "providergroupcompany", "provideraoo", "providerconfirmer"],
+		"benificiary": ["itemno", "subitemno", "erpcomcode", "beneficiarycompcode", "soldto", "shipto", "billto", "payer", "consumer", 
+			"rcgrpcomp", "rcaoo", "resys"
+		]
+	},
+	"DIRSERP": {
+		"project": ["PersonResponsible", "Applicant", "Description", "Plant", "ProfitCenter", "FunctionalArea"],
+		"wbs": ["ProjectType", "Priority", "Description", "CostCenter", "WorkDescriptionMandatory"],
+		"level2": ["ApprovalYear", "InvProgram", "InvProgramPosition"]
+	}
+}
