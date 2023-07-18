@@ -1,0 +1,85 @@
+{
+	"welcomeFile": "/webapp/index.html",
+	"routes": [{
+			"path": "/resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/resources",
+				"version": "1.52.35"
+			},
+			"description": "SAPUI5 Resources"
+		}, {
+			"path": "/test-resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/test-resources",
+				"version": "1.52.35"
+			},
+			"description": "SAPUI5 Resources"
+		}, {
+			"path": "/webapp/resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/resources",
+				"version": "1.52.35"
+			},
+			"description": "SAPUI5 Resources"
+		}, {
+			"path": "/webapp/test-resources",
+			"target": {
+				"type": "service",
+				"name": "sapui5",
+				"entryPath": "/test-resources",
+				"version": "1.52.35"
+			},
+			"description": "SAPUI5 Test Resources"
+		}, {
+			"path": "/GF_SCP_HANADB",
+			"target": {
+				"type": "destination",
+				"name": "GF_SCP_HANADB"
+			},
+			"description": "GF_SCP_HANADB"
+		}, {
+			"path": "/GF_SERP_ECC_150",
+			"target": {
+				"type": "destination",
+				"name": "GF_SERP_ECC_150_UIDPWD"
+			},
+			"description": "GF_SERP_ECC_150"
+		},
+		{
+			"path": "/GF_SERP_ECC_110",
+			"target": {
+				"type": "destination",
+				"name": "GF_SERP_ECC_110_UIDPWD"
+			},
+			"description": "GF_SERP_ECC_110"
+		},{
+			"path": "/DS_GSAP_ECC_110",
+			"target": {
+				"type": "destination",
+				"name": "DS_GSAP_GFFDR_110_UIDPWD"
+			},
+			"description": "DS_GSAP_ECC_110"
+		}, {
+			"path": "/services/userapi",
+			"target": {
+				"type": "service",
+				"name": "userapi"
+			}
+		}, {
+			"path": "/GF_CUMULUS_AD_SRCH_API",
+			"target": {
+				"type": "destination",
+				"name": "GF_CUMULUS_AD_SRCH_API"
+			},
+			"description": "GF_CUMULUS_AD_SRCH_API"
+		}
+
+	],
+	"sendWelcomeFileRedirect": true
+}
